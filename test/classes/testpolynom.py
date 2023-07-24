@@ -4,7 +4,6 @@
 import unittest
 
 from classes.polynomial import Polynomial
-from classes.rational import gcd
 
 
 class TestPolynom(unittest.TestCase):

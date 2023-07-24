@@ -4,9 +4,10 @@
 # ueberarbeitung 4.12.2020
 # Idee, alles einfacher, nur int, aber vollständig
 
-# from collections.abc import Collection, Callable, Sequence
+from collections.abc import Collection
 from functools import reduce
-from warmingup.types import NewType, Collection, Callable, Sequence
+
+from warmingup.types import NewType, Callable, Sequence
 
 
 def flip(f: Callable) -> Callable:
