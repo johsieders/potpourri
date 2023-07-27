@@ -1,19 +1,18 @@
-# testing classes
+# testing numbers
 # 20/11/2020
-# This exercise shows three ways how to make
-# static data and methods available
+# j.siedersleben
 
 
 import unittest
 
-from classes.romans import *
+from romans import *
 
 
-class classesTest(unittest.TestCase):
+class TestRomans(unittest.TestCase):
     def testRomans(self):
         tofrom = (Roman.toRoman, Roman.fromRoman), \
-                 (RomanFunc.toRoman, RomanFunc.fromRoman), \
-                 (toRoman1, fromRoman1)
+            (RomanFunc.toRoman, RomanFunc.fromRoman), \
+            (toRoman1, fromRoman1)
 
         for toRoman, fromRoman in tofrom:
             self.assertEqual('I', toRoman(1))

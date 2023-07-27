@@ -1,14 +1,10 @@
-## Rationale Zahlen
-## js 15.7. 2004
-## js 12.12.2020
-## nur int; keine Polymorphie
-## Idee: so einfach wie möglich, aber vollständig
+# Rationale Zahlen
+# js 15.7. 2004
+# js 12.12.2020
+# nur int; keine Polymorphie
+# Idee: so einfach wie möglich, aber vollständig
 
-
-def gcd(a, b):  # return gcd of a and b
-    while b:
-        a, b = b, a % b
-    return a
+from primes import gcd
 
 
 def flip(f):
@@ -155,19 +151,19 @@ class Rational(object):
         if not isinstance(r, Rational):
             r = Rational(r)
         return self.numerator * r.denominator - \
-               self.denominator * r.numerator < 0
+            self.denominator * r.numerator < 0
 
     def __le__(self, r):
         if not isinstance(r, Rational):
             r = Rational(r)
         return self.numerator * r.denominator - \
-               self.denominator * r.numerator <= 0
+            self.denominator * r.numerator <= 0
 
     def __eq__(self, r):
         if not isinstance(r, Rational):
             r = Rational(r)
         return self.numerator * r.denominator \
-               == self.denominator * r.numerator
+            == self.denominator * r.numerator
 
     # make operators with reversed operands
     __radd__ = __add__

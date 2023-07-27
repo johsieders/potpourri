@@ -3,8 +3,8 @@
 
 import unittest
 
-from classes.polynomial import *
-from classes.rational import *
+from numbers.polynomial import *
+from numbers.rational import *
 
 
 class TestPolynom(unittest.TestCase):

@@ -7,7 +7,7 @@
 from collections.abc import Collection
 from functools import reduce
 
-from warmingup.types import NewType, Callable, Sequence
+from types_ import NewType, Callable, Sequence
 
 
 def flip(f: Callable) -> Callable:

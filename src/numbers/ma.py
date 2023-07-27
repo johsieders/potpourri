@@ -1,97 +1,11 @@
 # Integers over a prime p
-# trying to understand the fields Fp
+# trying to understand modular arithmetic
 # reworked 19/07/2023
 
-from typing import Tuple, List
+from functools import reduce
+from typing import List
 
-
-def ext_gcd(a, b):  # return gcd of a and b
-    """
-    return gcd of a and b and s, t such that
-        a * s + b * t = gcd(a, b)
-    """
-    s, u = 1, 0
-    t, v = 0, 1
-
-    while b:
-        q, r = divmod(a, b)
-        a, b = b, r
-        s, u = u, s - q * u
-        t, v = v, t - q * v
-    return a, s, t
-
-
-def ext_gcd_rec(a: int, b: int, s=1, u=0, t=0, v=1) -> Tuple[int, int, int]:
-    """
-    return gcd(a, b) and s, t such that
-        a * s + b * t = gcd(a, b)
-    """
-    if b == 0:
-        return a, s, t
-    else:
-        q, r = divmod(a, b)
-        return ext_gcd_rec(b, r, u, s - q * u, v, t - q * v)
-
-
-def inv(a: int, m: int) -> int:
-    """
-    :param a: an integer
-    :param m: an integer coprime to a
-    :return: inverse of a modulo m
-    """
-    g, s, t = ext_gcd(a, m)
-    if g != 1:
-        raise ValueError("No inverse for %d modulo %d" % (a, m))
-    return s % m
-
-
-def chinese_remainder_2(a: List[int], m: List[int]) -> int:
-    """
-    :param a: list of two integers
-    :param m: list of two coprime integers
-    :return: x such that x = a[i] mod m[i] for i = 0, 1
-    """
-    g, s, t = ext_gcd(m[0], m[1])
-    if g != 1:
-        raise ValueError("No inverse for %d modulo %d" % (m[0], m[1]))
-    return a[0] * t * m[1] + a[1] * s * m[0]
-
-
-def chinese_remainder(a: List[int], m: List[int]) -> int:
-    """
-    :param a: list of integers
-    :param m: list of coprime integers
-    :return: x such that x = a[i] mod m[i] for all i
-    """
-
-    a0 = a[0] % m[0]
-    m0 = m[0]
-
-    for i in range(1, len(a)):
-        a1 = a[i] % m[i]
-        m1 = m[i]
-        a0 = chinese_remainder_2([a0, a1], [m0, m1])
-        m0 *= m1
-
-    return a0
-
-
-def chinese_remainder_copilot(a: List[int], m: List[int]) -> int:
-    """
-    :param a: list of integers
-    :param m: list of coprime integers
-    :return: x such that x = a[i] mod m[i] for all i
-    """
-    n = len(a)
-    M = 1
-    for i in range(n):
-        M *= m[i]
-    M_i = [M // m_i for m_i in m]
-    y_i = [inv(M_i[i], m[i]) for i in range(n)]
-    x = 0
-    for i in range(n):
-        x += a[i] * M_i[i] * y_i[i]
-    return x % M
+from primes import chinese_remainder, inv
 
 
 class ModularArithmetic(object):
@@ -105,15 +19,20 @@ class ModularArithmetic(object):
         N = product of primes
         """
         self.primes = list(primes)
+        self.N = reduce(lambda x, y: x * y, primes)
 
-    def toModular(self, x: int) -> List[int]:
+    def get_N(self) -> int:
+        return self.N
+
+    def to_modular(self, x: int) -> List[int]:
         """
         :param x: an integer
         :return: n modulo p
         """
+        # todo: optimize this for large N
         return [x % p for p in self.primes]
 
-    def fromModular(self, x: List[int]) -> int:
+    def from_modular(self, x: List[int]) -> int:
         """
         :param x: a list of integers
         :return: n such that n = x[i] mod p[i] for all i
@@ -127,10 +46,10 @@ class ModularArithmetic(object):
         :param b: an integer
         :return: op(a, b) modulo N
         """
-        pa = self.toModular(a)
-        pb = self.toModular(b)
+        pa = self.to_modular(a)
+        pb = self.to_modular(b)
         pc = [op(pa[i], pb[i]) for i in range(len(self.primes))]
-        result = self.fromModular(pc)
+        result = self.from_modular(pc)
         return result
 
     def add(self, a: int, b: int) -> int:
@@ -147,12 +66,12 @@ class ModularArithmetic(object):
         :param a: an integer
         :return: inverse of a modulo N if it exists, None otherwise
         """
-        pa = self.toModular(a)
+        pa = self.to_modular(a)
         try:
             pb = [inv(pa[i], self.primes[i]) for i in range(len(self.primes))]
         except ValueError:
             return None
-        return self.fromModular(pb)
+        return self.from_modular(pb)
 
     def div(self, a: int, b: int) -> int | None:  # a / b
         """
@@ -172,17 +91,14 @@ class M(int):
     Arithmetic operations are performed modulo N using the ModularArithmetic class.
     """
 
-    def __new__(cls, value):
-        obj = int.__new__(cls, value)  # create an instance of int
+    def __new__(cls, value, N):
+        obj = int.__new__(cls, value % N)  # create an instance of int
+        obj.N = N
         obj.ma = None
         return obj
 
-    def set_ma(self, ma: ModularArithmetic, mf: ModularFactory):
-        self.ma = ma
-        self.mf = mf
-
     def __add__(self, n: int) -> int:
-        return self.ma.add(self, n)
+        return M(super().__add__(n), self.N)
 
     def __sub__(self, n: int) -> int:
         return self.ma.sub(self, n)

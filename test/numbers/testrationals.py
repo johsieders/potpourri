@@ -6,7 +6,7 @@ import unittest
 flag = 1
 
 if flag:
-    from classes.rational import Rational
+    from numbers.rational import Rational
 else:
     from fractions import Fraction as Rational
 
