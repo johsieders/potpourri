@@ -5,7 +5,7 @@
 import unittest
 from functools import reduce
 
-from fp import Fp
+from numbers.src.fp import Fp
 
 
 class TestFp(unittest.TestCase):

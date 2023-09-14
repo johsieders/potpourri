@@ -5,8 +5,8 @@
 import unittest
 from functools import reduce
 
-from ma import ModularArithmetic
-from primes import get_primes
+from numbers.src.ma import ModularArithmetic
+from numbers.src.primes import get_primes
 
 
 class TestModularArithmetic(unittest.TestCase):

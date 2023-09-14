@@ -3,7 +3,7 @@
 
 import unittest
 
-from polynomials import Polynomial
+from numbers.src.polynomials import Polynomial
 
 
 class TestPolynom(unittest.TestCase):

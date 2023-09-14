@@ -3,7 +3,7 @@
 
 import unittest
 
-from warmingup.warmingup import *
+from numbers.src.warmingup import *
 
 
 class WarmingupTest(unittest.TestCase):

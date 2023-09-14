@@ -5,7 +5,7 @@
 import unittest
 from functools import reduce
 
-from primes import *
+from numbers.src.primes import *
 
 
 class TestPrimes(unittest.TestCase):
