@@ -1,6 +1,6 @@
 # j.siedersleben
 # fasttrack to professional programming
-# lesson 4: classes
+# lesson 4: classes_
 # 13.12.2020
 
 

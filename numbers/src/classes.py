@@ -1,6 +1,6 @@
 # j.siedersleben
 # fasttrack to professional programming
-# lesson 4: classes
+# lesson 4: classes_
 # 13.12.2020
 
 
@@ -8,7 +8,7 @@ from collections.abc import MutableSequence
 
 
 # The first example shows how subclasses extend a method of their superclass.
-# There are three classes: A(object), B(A) and C(A).
+# There are three classes_: A(object), B(A) and C(A).
 
 class A(object):
     def __init__(self, text):
@@ -57,7 +57,7 @@ class C(A):
 
 
 # The second example shows how subclasses provide a method which is abstract in the superclass
-# There are three classes: D(object), F(D) and E(D).
+# There are three classes_: D(object), F(D) and E(D).
 
 class D(object):
     def __init__(self, text):
@@ -114,7 +114,7 @@ class F(D):
 ###################################################################
 ## The third example shows how subclasses implement an interface ##
 ## (= a class with no implemented methods)                       ##
-## There are three classes: I(object), G(I) and H(I).            ##
+## There are three classes_: I(object), G(I) and H(I).            ##
 ###################################################################
 
 class I(object):
@@ -189,7 +189,7 @@ def process(xs: MutableSequence[any]):
 
 
 #################################################################################
-## This example shows how classes work.                                        ##
+## This example shows how classes_ work.                                        ##
 ## A class defines a namespace.                                                ##
 ## Classes can be nested to any level (as you would expect for a namespace)    ##
 ##                                                                             ##
