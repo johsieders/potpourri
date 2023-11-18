@@ -1,40 +1,6 @@
 # 4.4.2022
 # 18.11.2023
 
-# Quantum Computing with Pytorch
-
-# Conventions
-# state: tensor; size = (2**n, 1); psi, phi, xi
-# basis state: a state with exactly one element = 1, all others = 0
-# binary index: list of n binaries; len = n; x, y, z
-# integer index: int < N = 2**n; i, j, k
-# binary: int < 2; a, b, c
-# For each n, there are 2**n basis states, binary indices and integer indices.
-# The table for n = 3, N = 8
-#
-# integer indices   Dirac notation          basis states
-# 0                 [0, 0, 0 >              [1, 0, 0, 0, 0, 0, 0, 0]
-# 1                 [0, 0, 1 >              [0, 1, 0, 0, 0, 0, 0, 0]
-# 2                 [0, 1, 0 >              [0, 0, 1, 0, 0, 0, 0, 0]
-# 3                 [0, 1, 1 >              [0, 0, 0, 1, 0, 0, 0, 0]
-# 4                 [1, 0, 0 >              [0, 0, 0, 0, 1, 0, 0, 0]
-# 5                 [1, 0, 1 >              [0, 0, 0, 0, 0, 1, 0, 0]
-# 6                 [1, 1, 0 >              [0, 0, 0, 0, 0, 0, 1, 0]
-# 7                 [1, 1, 1 >              [0, 0, 0, 0, 0, 0, 0, 1]
-
-
-# [0, 0 >  =  [0 > X [0 >  =  [1, 0, 0, 0]
-# quantum matrix: tensor of size (N, N); A, B, C, to be applied to states: A.mm(psi) -> phi
-# quantum gate: special quantum matrices, such as I, X, CX, CZ, SWAP
-# quantum program: list of quantum matrices, P, Q, R, or BELL, TELE, DEUTSCH, DENSE
-
-# representation of |psi> as a tensor
-# |psi> =  tensor([a0, a1, a2, a3, a4, a5, a6, a7]).T
-# |psi> =  a0 * |0, 0, 0> + a1 * |0, 0, 1> + a2 * |0, 1, 0> + a3 * |0, 1, 1> +
-#           a4 * |1, 0, 0> + a5 * |1, 0, 1> + a6 * |1, 1, 0> + a7 * |1, 1, 1>
-# sqrt(psi**2) = 1
-# Setting qsi = psi.view(2, 2, 2) we get
-# sqrt(qsi[a, b, c]**2) = P[X=a, Y=b, Z=c]
 
 from collections.abc import Callable
 
@@ -43,8 +9,6 @@ from torch import tensor, zeros
 
 qtype = torch.complex64
 dev = torch.device('cpu')
-
-
 # dev = torch.device('cuda')
 
 

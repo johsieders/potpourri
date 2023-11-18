@@ -14,8 +14,8 @@ def superdense():
     """
     Superdense coding is about sending classical bits through a quantum channel.
 
-    Victor has two qubits in the base state |0> and applies BELL to them.
-    This yields the Bell state B00 = 1/sqrt(2) * (|00> + |11>) of two entangled qubits.
+    Victor has two qbits in the base state |0> and applies BELL to them.
+    This yields the Bell state B00 = 1/sqrt(2) * (|00> + |11>) of two entangled qbits.
     He sends the first qubit to Alice and the second to Bob, both far away.
 
     Now, Alice wants to send two classical bits (a, b) to Bob through a quantum channel.
@@ -52,24 +52,24 @@ def superdense():
 
 def teleportation():
     """
-    Teleportation is about sending qubits through a conventional channel. Here is the setup:
-    Alice has one arbitrary qubit |psi>. She also has two qubits in the base state |0>.
-    She applies (I, BELL) to the three qubits, resulting in three entangled qubits in a
-    superposition of 8 states. Now, Alice takes the first two qubits and flies far away,
+    Teleportation is about sending qbits through a conventional channel. Here is the setup:
+    Alice has one arbitrary qubit |psi>. She also has two qbits in the base state |0>.
+    She applies (I, BELL) to the three qbits, resulting in three entangled qbits in a
+    superposition of 8 states. Now, Alice takes the first two qbits and flies far away,
     say to the moon. Bob stays at home, and keeps the third qubit.
 
     The question is: how can Alice send her qubit |psi> to Bob? And the answer is yes, it's easy:
-    First she applies BELL.T to her qubits, which amounts to applying (BELL.T, I) to the three
-    qubits. Then she measures her two qubits and sends the result (a, b) to Bob.
+    First she applies BELL.T to her qbits, which amounts to applying (BELL.T, I) to the three
+    qbits. Then she measures her two qbits and sends the result (a, b) to Bob.
     Bob will be able to reconstruct Alice's original qubit |psi> by applying X**b and Z**a to his qubit.
     That's what teleportation is.
 
-    To summarize: Teleportation allows sending qubits through a conventional channel
-    provided that sender and receiver share entangled qubits,
-    i.e. they (the qubits) must have met before.
+    To summarize: Teleportation allows sending qbits through a conventional channel
+    provided that sender and receiver share entangled qbits,
+    i.e. they (the qbits) must have met before.
 
     A few comments are in order:
-    1. The three qubits are entangled, so the measurement of one of them
+    1. The three qbits are entangled, so the measurement of one of them
     gives information about the state of the others across any distance.
     2. It is by no means obvious how entanglement survives long trips.
     3. We assume that Alice can send the two classical bits (a, b) to Bob via any channel.
@@ -92,16 +92,16 @@ def teleportation():
     # state 0 = [a0, 0, 0, 0, a1, 0, 0, 0]
     state0 = tmm(psi, bin2basis([0, 0]))
 
-    # They apply BELL to the last two qubits which yields
+    # They apply BELL to the last two qbits which yields
     # state 1 = [a0, 0, 0, a0, a1, 0, 0, a1]
     state1 = tmm(I, BELL).mm(state0)
 
-    # Alice takes the first two qubits and flies to the moon.
-    # There she applies BELL.T to her qubits which yields
+    # Alice takes the first two qbits and flies to the moon.
+    # There she applies BELL.T to her qbits which yields
     # state 2 = [a0, a1, a1, a0, a0, -a1, -a1, a0]
     state2 = tmm(BELL.T, I).mm(state1)
 
-    # Now, Alice measures her qubits and sends the result (a, b) to Bob.
+    # Now, Alice measures her qbits and sends the result (a, b) to Bob.
     # state2[a, b] is the state of Bob's qubit after Alice's measurement
     state2 = state2.view(2, 2, 2)
 

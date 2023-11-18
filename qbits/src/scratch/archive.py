@@ -13,16 +13,16 @@ def apply_(Q: tensor, x: tensor, args: list) -> tensor:
     :param Q: a tensor, shape = (2**k, 2**k)
     :param x: a vector, shape = (2**n); k <= n
     :param args: a list; len(args) = k
-    :return: result of Q applied to the qubits of x given by args, so:
+    :return: result of Q applied to the qbits of x given by args, so:
 
     X.shape = (2, 2)
     apply(X, x, [0]) applies X to qubit 0 of x
     apply(X, x, [1]) applies X to qubit 1 of x
 
     CX.shape = (4, 4)
-    apply(CX, x, [0, 1]) applies CX to qubits 0 and 1 of x
-    apply(CX, x, [1. 2]) applies CX to qubits 1 and 2 of x
-    apply(CX, x, [0, 2]) applies CX to qubits 0 and 2 of x
+    apply(CX, x, [0, 1]) applies CX to qbits 0 and 1 of x
+    apply(CX, x, [1. 2]) applies CX to qbits 1 and 2 of x
+    apply(CX, x, [0, 2]) applies CX to qbits 0 and 2 of x
     """
 
     K = Q.shape[0]
@@ -37,13 +37,13 @@ def apply_(Q: tensor, x: tensor, args: list) -> tensor:
     # idx is the main element of the following code.
     # It is initialized to ":" overall.
     # The args-part of idx remains unchanged.
-    # The non-args-part of idx runs through all non-arg qubits.
+    # The non-args-part of idx runs through all non-arg qbits.
     idx = [slice(None)] * n
 
     y = x.view(n * [2])  # a cube, shape = (2, 2, .., 2)
     result = zeros(N, dtype=qtype).view(n * [2])  # a cube, shape = (2, 2, .., 2)
 
-    # run through all non-args qubits
+    # run through all non-args qbits
     # The complexity of this loop is 2**(n-k) * 2**(2k) = 2**(n+k)
     # as opposed to 2**(2n), the complexity of the naive approach.
     for j in range(2 ** (n - k)):
@@ -63,7 +63,7 @@ def extend_(Q: tensor, args: list, n: int) -> tensor:
     """
     :param Q: a tensor, shape = (2**k, 2**k)
     :param args: a list of indices; len(args) = k
-    :param n: number of qubits Q is to be extended to
+    :param n: number of qbits Q is to be extended to
     :return: an extended tensor T, shape = (2**n, 2**n) such that,
     if T = apply_P(Q, args, n), then
     T.mv(x) = apply_Q(Q, x, args)
