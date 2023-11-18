@@ -108,7 +108,7 @@ class SudokuProblem(SearchProblem):
         #       at least two options must be considered
         #
         # nextsteps does two things:
-        # a) For all positions it computes the set of admissible numbers
+        # a) For all positions it computes the set of admissible nums
         #    at that position. nextsteps stops at the zero- or one-outcome
         # b) For each number in range(1, 10) and for all rows/columns/boxes
         #    it computes the set of admissible positions of that number

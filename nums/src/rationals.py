@@ -1,14 +1,10 @@
-## Rationale Zahlen
-## js 15.7. 2004
-## js 12.12.2020
-## nur int; keine Polymorphie
-## Idee: so einfach wie möglich, aber vollständig
+# Rationale Zahlen
+# js 15.7. 2004
+# js 12.12.2020
+# nur int; keine Polymorphie
+# Idee: so einfach wie möglich, aber vollständig
 
-
-def gcd(a, b):  # return gcd of a and b
-    while b:
-        a, b = b, a % b
-    return a
+from primes import gcd
 
 
 def flip(f):

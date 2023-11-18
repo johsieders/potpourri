@@ -51,9 +51,9 @@ class Str8(object):
         raise NotImplementedError
 
     def constraints(self):
-        """ Returns all numbers on this row not in self in ascending order.
+        """ Returns all nums on this row not in self in ascending order.
             Contains 10 = size+1 as last constraint
-            These numbers are illegal in self.
+            These nums are illegal in self.
         """
         result = self.rawconstraints()
         result.sort()
@@ -61,7 +61,7 @@ class Str8(object):
         return result
 
     def options(self):
-        """ Returns the set of all feasible numbers for self """
+        """ Returns the set of all feasible nums for self """
         if self.isempty():
             last = 0
             result = set()
@@ -91,7 +91,7 @@ class Hor8(Str8):
         return self.tab[self.row][self.col: self.col + self.len]
 
     def rawconstraints(self):
-        """ Returns all numbers on this row not in self. """
+        """ Returns all nums on this row not in self. """
         tmp = range(0, self.col)
         tmp.extend(range(self.col + self.len, size))
         return [abs(self.tab[self.row][j]) for j in tmp \
@@ -106,7 +106,7 @@ class Ver8(Str8):
         return [self.tab[i][self.col] for i in range(self.row, self.row + self.len)]
 
     def rawconstraints(self):
-        """ Returns all numbers on this row not in self. """
+        """ Returns all nums on this row not in self. """
         tmp = range(0, self.row)
         tmp.extend(range(self.row + self.len, size))
         return [abs(self.tab[i][self.col]) for i in tmp \

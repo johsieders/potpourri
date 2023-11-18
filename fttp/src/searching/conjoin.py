@@ -2,7 +2,7 @@
 ## js 10.8.02
 ## bubenorbis
 
-from warmingup.types import Callable, Collection, Iterator, List, Sequence, Set
+from warmingup.types import Callable, List, Sequence
 
 
 ############################################
@@ -65,7 +65,7 @@ def conjoin2(*gs: Iterator) -> Sequence:
 
 
 ############################################
-##    applying conjoin to roman numbers   ##
+##    applying conjoin to roman nums   ##
 ############################################
 
 
@@ -82,7 +82,7 @@ d3 = lambda: digits3
 
 def romans1() -> Iterator[str]:
     """
-    :return: romans numbers from 1 to 4999
+    :return: romans nums from 1 to 4999
     """
     result = [''] * 4
     for result[0] in digits0:
@@ -94,7 +94,7 @@ def romans1() -> Iterator[str]:
 
 def romans() -> Iterator[str]:
     """
-    :return: romans numbers from 1 to 4999
+    :return: romans nums from 1 to 4999
     """
     result = conjoin(d0, d1, d2, d3)
     return (''.join(t) for t in result)

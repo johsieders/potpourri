@@ -32,7 +32,7 @@ def histogram1(xs):
 def indexA(book):
     """
     :param book: dictionary of pages each page containing the items to be indexed
-    :return: dictionary key: words occuring in book; value: list of page numbers featuring word
+    :return: dictionary key: words occuring in book; value: list of page nums featuring word
     """
 
     result = {}
@@ -63,7 +63,7 @@ def normnumber(s):
 def cross_sum0(x):
     """
     :param x: any float
-    :return: cross sum of x treating the decimals like normal numbers
+    :return: cross sum of x treating the decimals like normal nums
     """
     xs = str(x)
     xs_norm = normnumber(xs)
@@ -128,7 +128,7 @@ def is_sorted1(xs):
 def makePhoneIndex(contacts):
     """
     :param contacts: list with tuples
-    :return: dictionary result; index phone numbers; values: corresponding list indexes
+    :return: dictionary result; index phone nums; values: corresponding list indexes
     """
     index = {}
 

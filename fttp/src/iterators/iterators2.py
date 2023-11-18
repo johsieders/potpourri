@@ -8,9 +8,8 @@ from collections import deque
 from itertools import chain, cycle, islice
 from operator import add
 
+from nums import Number
 from warmingup.types import Iterable, Iterator, Callable, Sequence
-
-from numbers import Number
 
 
 def yielding1(n: int):
@@ -278,7 +277,7 @@ def hamming(*ps: int) -> Iterator[int]:
     The next number to be produced is min(q)
     """
 
-    q = [1]  # q contains all numbers produced so far
+    q = [1]  # q contains all nums produced so far
     while True:
         yield q[-1]
         mq = max(q)
