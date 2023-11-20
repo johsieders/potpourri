@@ -44,7 +44,7 @@ from cmath import exp, pi, sqrt
 import torch
 from torch import tensor, empty, zeros
 
-from basics import log2, int2bin, perm2matrix, matrix2perm, dev, qtype
+from basics import log2, int2bin, dev, qtype
 
 
 def measure(psi: tensor) -> tensor:
@@ -64,6 +64,42 @@ def norm(x):
     return sqrt(sum(x ** 2))
 
 
+def perm2matrix(perm: list) -> tensor:
+    """
+    :param perm: permutation of n integers 0, ..., n-1
+    :return: matrix permuting the columns of a state according to perm
+    example: perm = [1, 0, 2] swaps columns 0 and 1.
+    This yields the matrix
+    [[0, 1, 0],
+    [1, 0, 0],
+    [0, 0, 1]]
+    """
+    n = len(perm)
+    result = zeros(n ** 2, dtype=qtype, device=dev).view(n, -1)
+    for i in range(n):
+        result[i, perm[i]] = 1
+    return result
+
+
+def matrix2perm(M: tensor) -> list:
+    """
+    :param M: a matrix of size (n, n) permuting the columns of a state
+    :return: permutation of n integers 0, ..., n-1 if M represents a permutation,
+    None otherwise. Example:
+    M = [[0, 1, 0],
+    [1, 0, 0],
+    [0, 0, 1]]
+    yields perm = [1, 0, 2]
+    """
+    n = M.shape[0]
+    result = []
+    for i in range(n):
+        for j in range(n):
+            if torch.isclose(M[i, j], torch.tensor(1, dtype=qtype, device=dev)):
+                result.append(j)
+    return result if len(result) == n else None
+
+
 def tmm(*A: tensor) -> tensor:
     """
     :param A: a list of tensors
@@ -78,6 +114,20 @@ def tmm(*A: tensor) -> tensor:
 
         return result
 
+
+def mm(*A: tensor) -> tensor:
+    """
+    :param A: a list of tensors
+    :return: matrix product of all tensors
+    """
+    if len(A) == 1:
+        return A[0].clone()
+    else:
+        result = A[0].mm(A[1])
+        for i in range(2, len(A)):
+            result = result.mm(A[i])
+
+        return result
 
 def tmm_(A: tensor, B: tensor) -> tensor:
     """

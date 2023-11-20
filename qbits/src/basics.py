@@ -125,6 +125,23 @@ def permute(perm: list) -> list:
     return [bin2int([b[i] for i in perm]) for b in bs]
 
 
+
+def one_at(i: int) -> Callable:
+    """
+    :param i: an integer
+    :return: a function f: list -> int
+    f accepts a number j given as list of binaries.
+    f returns 1 if i == j, 0 otherwise.
+    """
+
+    def aux(x: list) -> int:
+        j = bin2int(x)
+        return 1 if i == j else 0
+
+    return aux
+
+
+# has been replaced with new versio of apply
 def extend_perm(perm: list, args: list, n: int) -> list:
     """
     :param perm: a permutation, len(perm) = 2**k
@@ -154,65 +171,3 @@ def extend_perm(perm: list, args: list, n: int) -> list:
         result.append(bin2int(b))
 
     return result
-
-
-def extend_xxx(perm: list, args: list, n: int) -> list:
-    k = len(args)
-    if 2 ** k != len(perm) or k > n:
-        raise ValueError
-
-    non_args = [i for i in range(n) if i not in args]
-    index_org = torch.tensor(permute(non_args + args))
-    index_new = index_org.view(2 ** (n - k), 2 ** k)[:, perm].view(2 ** n)
-    return list(index_new)
-
-
-def perm2matrix(perm: list) -> tensor:
-    """
-    :param perm: permutation of n integers 0, ..., n-1
-    :return: matrix permuting the columns of a state according to perm
-    example: perm = [1, 0, 2] swaps columns 0 and 1.
-    This yields the matrix
-    [[0, 1, 0],
-    [1, 0, 0],
-    [0, 0, 1]]
-    """
-    n = len(perm)
-    result = zeros(n ** 2, dtype=qtype, device=dev).view(n, -1)
-    for i in range(n):
-        result[i, perm[i]] = 1
-    return result
-
-
-def matrix2perm(M: tensor) -> list:
-    """
-    :param M: a matrix of size (n, n) permuting the columns of a state
-    :return: permutation of n integers 0, ..., n-1 if M represents a permutation,
-    None otherwise. Example:
-    M = [[0, 1, 0],
-    [1, 0, 0],
-    [0, 0, 1]]
-    yields perm = [1, 0, 2]
-    """
-    n = M.shape[0]
-    result = []
-    for i in range(n):
-        for j in range(n):
-            if torch.isclose(M[i, j], torch.tensor(1, dtype=qtype, device=dev)):
-                result.append(j)
-    return result if len(result) == n else None
-
-
-def one_at(i: int) -> Callable:
-    """
-    :param i: an integer
-    :return: a function f: list -> int
-    f accepts a number j given as list of binaries.
-    f returns 1 if i == j, 0 otherwise.
-    """
-
-    def aux(x: list) -> int:
-        j = bin2int(x)
-        return 1 if i == j else 0
-
-    return aux

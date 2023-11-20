@@ -5,8 +5,10 @@ import unittest
 import torch
 from torch import tensor
 
-from basics import dev, matrix2perm, extend_perm, one_at
-from qgates import I, H, X, CX, CX2, FRED, U, perm_X, perm_CX, perm_CX2, tmm, apply, qgate
+from basics import dev, extend_perm, one_at
+from qgates import I, H, X, CX, CX2, FRED, U
+from qgates import perm_X, perm_CX, perm_CX2
+from qgates import tmm, apply, qgate, matrix2perm
 
 
 class TestQGates(unittest.TestCase):
