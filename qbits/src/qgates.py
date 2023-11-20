@@ -5,7 +5,7 @@
 # Quantum Computing with Pytorch
 
 # Conventions
-# state: tensor; size = (2**n, 1); psi, phi, xi
+# state (of n qbits): tensor; size = (2**n,); psi, phi, chi
 # basis state: a state with exactly one element = 1, all others = 0
 # binary index: list of n binaries; len = n; x, y, z
 # integer index: int < N = 2**n; i, j, k
@@ -25,9 +25,10 @@
 
 
 # [0, 0 >  =  [0 > X [0 >  =  [1, 0, 0, 0]
-# quantum matrix: tensor of size (N, N); A, B, C, to be applied to states: A.mm(psi) -> phi
+# quantum matrix: tensor of size (N, N); A, B, C, to be applied to states: A.mv(psi) -> phi
 # quantum gate: special quantum matrices, such as I, X, CX, CZ, SWAP
-# quantum program: list of quantum matrices, P, Q, R, or BELL, TELE, DEUTSCH, DENSE
+# quantum program (P, Q, R): a quantum matrix that serves a special purpose such as
+# BELL, TELE, DEUTSCH, DENSE
 
 # representation of |psi> as a tensor
 # |psi> =  tensor([a0, a1, a2, a3, a4, a5, a6, a7]).T
@@ -43,7 +44,7 @@ from cmath import exp, pi, sqrt
 import torch
 from torch import tensor, empty, zeros
 
-from basics import log2, int2bin, perm2matrix, dev, qtype
+from basics import log2, int2bin, perm2matrix, matrix2perm, dev, qtype
 
 
 def measure(psi: tensor) -> tensor:
@@ -133,6 +134,7 @@ def I(n: int) -> tensor:
     """
     return torch.eye(2 ** n, dtype=qtype, device=dev)
 
+
 perm_X = [1, 0]  # NOT, Pauli-X
 perm_CX = [0, 1, 3, 2]  # Controlled NOT; swap second bit if first bit is set
 perm_CX2 = [0, 3, 2, 1]
@@ -189,6 +191,7 @@ def apply(Q: tensor, psi: tensor, args: list) -> tensor:
     """
 
     K = Q.shape[0]
+    perm = matrix2perm(Q)
     N = psi.shape[0]
     n = log2(N)
     k = log2(K)
@@ -208,6 +211,7 @@ def apply(Q: tensor, psi: tensor, args: list) -> tensor:
 
     # run through all non-args qbits
     # The complexity of this loop is 2**(n-k) * 2**(2k) = 2**(n+k)
+    # If Q is a permutation, then the complexity is 2**(n-k) * 2**k = 2**n
     # as opposed to 2**(2n), the complexity of the naive approach.
     for j in range(2 ** (n - k)):
         # update the non-arg part of idx according to j
@@ -215,7 +219,7 @@ def apply(Q: tensor, psi: tensor, args: list) -> tensor:
         for i in non_args:
             idx[i] = next(bs)
         z = y[idx].ravel()  # z is a vector, shape = (2**k)
-        r = Q.mv(z)  # Q applied to z yields r, shape = (2**k)
+        r = z[perm] if perm else Q.mv(z)  # Q applied to z yields r, shape = (2**k)
         # each pass updates its own part of result.
         result[idx] = r.view(k * [2])
 
@@ -228,6 +232,7 @@ def qgate(Q, n, args) -> tensor:
     :param n: number of qbits, N = 2**n
     :param args: a list; len(args) = k
     :return: an NxN matrix which applies Q to the qbits given by args
+    If n == k, the result is just a clone of Q
     """
     B = I(n)
     R = B.clone()

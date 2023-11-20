@@ -9,6 +9,8 @@ from torch import tensor, zeros
 
 qtype = torch.complex64
 dev = torch.device('cpu')
+
+
 # dev = torch.device('cuda')
 
 
@@ -99,6 +101,7 @@ def compose(p: list, q: list) -> list:
     """
     return [q[i] for i in p]
 
+
 def permute(perm: list) -> list:
     """
     :param perm: permutation of n integers 0, ..., n-1
@@ -136,7 +139,7 @@ def extend_perm(perm: list, args: list, n: int) -> list:
     """
 
     k = len(args)
-    if 2 ** k != len(perm):
+    if 2 ** k != len(perm) or k > n:
         raise ValueError
 
     result = []
@@ -151,6 +154,17 @@ def extend_perm(perm: list, args: list, n: int) -> list:
         result.append(bin2int(b))
 
     return result
+
+
+def extend_xxx(perm: list, args: list, n: int) -> list:
+    k = len(args)
+    if 2 ** k != len(perm) or k > n:
+        raise ValueError
+
+    non_args = [i for i in range(n) if i not in args]
+    index_org = torch.tensor(permute(non_args + args))
+    index_new = index_org.view(2 ** (n - k), 2 ** k)[:, perm].view(2 ** n)
+    return list(index_new)
 
 
 def perm2matrix(perm: list) -> tensor:
@@ -173,19 +187,20 @@ def perm2matrix(perm: list) -> tensor:
 def matrix2perm(M: tensor) -> list:
     """
     :param M: a matrix of size (n, n) permuting the columns of a state
-    :return: permutation of n integers 0, ..., n-1
-    example: M = [[0, 1, 0],
+    :return: permutation of n integers 0, ..., n-1 if M represents a permutation,
+    None otherwise. Example:
+    M = [[0, 1, 0],
     [1, 0, 0],
     [0, 0, 1]]
     yields perm = [1, 0, 2]
     """
-    n = M.size()[0]
+    n = M.shape[0]
     result = []
     for i in range(n):
         for j in range(n):
-            if M[i, j] == 1:
+            if torch.isclose(M[i, j], torch.tensor(1, dtype=qtype, device=dev)):
                 result.append(j)
-    return result
+    return result if len(result) == n else None
 
 
 def one_at(i: int) -> Callable:

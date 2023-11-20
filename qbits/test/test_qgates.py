@@ -5,8 +5,8 @@ import unittest
 import torch
 from torch import tensor
 
-from basics import dev, matrix2perm, extend_perm
-from qgates import I, X, CX, perm_X, perm_CX, tmm, apply, qgate
+from basics import dev, matrix2perm, extend_perm, one_at
+from qgates import I, H, X, CX, CX2, FRED, U, perm_X, perm_CX, perm_CX2, tmm, apply, qgate
 
 
 class TestQGates(unittest.TestCase):
@@ -112,55 +112,62 @@ class TestQGates(unittest.TestCase):
         perm = extend_perm(perm_CX, [1, 2], 4)
         self.assertListEqual(perm_M, perm)
 
+    def test_qgate(self):
+        Q = qgate(CX, 2, [0, 1])
+        self.assertTrue(torch.allclose(Q, CX))
+        Q = qgate(FRED, 3, [0, 1, 2])
+        self.assertTrue(torch.allclose(Q, FRED))
 
+    def test_Uf(self):
+        aux = [complex(k + 10) for k in range(8)]
+        psi = tensor(aux, device=dev)
+        f = one_at(3)
 
-    # def test_Uf(self):
-    #     aux = [complex(k + 10) for k in range(8)]
-    #     psi = tensor(aux, device=dev)
-    #     f = one_at(3)
-    #     Q = U(f, 2)
-    #     perm_Uf = matrix2perm(Q)
-    #     phi1 = Q.mv(psi)
-    #     phi2 = apply(Q, psi, [0, 1, 2])
-    #     phi3 = psi[perm_Uf]
-    #
-    #     self.assertTrue(torch.allclose(phi1, phi2))
-    #     self.assertTrue(torch.allclose(phi1, phi3))
-    #
-    #     aux = [complex(k + 100) for k in range(16)]
-    #     psi = tensor(aux, device=dev)
-    #     f = one_at(3)
-    #     Q = tmm(I, U(f, 2))
-    #     perm_Uf = matrix2perm(Q)
-    #     phi1 = Q.mv(psi)
-    #     phi2 = apply(Q, psi, [1, 2, 3])
-    #     phi3 = psi[perm_Uf]
-    #
-    #     self.assertTrue(torch.allclose(phi1, phi2))
-    #     self.assertTrue(torch.allclose(phi1, phi3))
-    #
-    # def test_CX2(self):
-    #     H2 = tmm(H, H)
-    #     Q = H2.mm(CX).mm(H2)
-    #
-    #     aux = [complex(k + 10) for k in range(4)]
-    #     psi = tensor(aux, device=dev)
-    #     phi1 = CX2.mv(psi)
-    #     phi2 = apply(CX2, psi, [0, 1])
-    #     phi3 = psi[perm_CX2]
-    #     phi4 = Q.mv(psi)
-    #     self.assertTrue(torch.allclose(phi1, phi2))
-    #     self.assertTrue(torch.allclose(phi1, phi3))
-    #     self.assertTrue(torch.allclose(phi1, phi4))
-    #
-    #     aux = [complex(k + 10) for k in range(8)]
-    #     psi = tensor(aux, device=dev)
-    #     Q = tmm(CX2, I)
-    #     px = matrix2perm(Q)
-    #     phi1 = Q.mv(psi)
-    #     phi2 = apply(CX2, psi, [0, 1])
-    #     phi3 = psi[px]
-    #
-    #     self.assertTrue(torch.allclose(phi1, phi2))
-    #     self.assertTrue(torch.allclose(phi1, phi3))
-    #
+        Q = U(f, 2)
+        qx = matrix2perm(Q)
+        phi1 = Q.mv(psi)
+        phi2 = apply(Q, psi, [0, 1, 2])
+        phi3 = psi[qx]
+        G = qgate(Q, 3, [0, 1, 2])
+        self.assertTrue(torch.allclose(phi1, phi2))
+        self.assertTrue(torch.allclose(phi1, phi3))
+        self.assertTrue(torch.allclose(Q, G))
+
+        aux = [complex(k + 10) for k in range(16)]
+        psi = tensor(aux, device=dev)
+        Uf = U(f, 2)
+        Q = tmm(I(1), Uf)
+        qx = matrix2perm(Q)
+        phi1 = Q.mv(psi)
+        phi2 = apply(Uf, psi, [1, 2, 3])
+        phi3 = psi[qx]
+        G = qgate(Uf, 4, [1, 2, 3])
+        self.assertTrue(torch.allclose(phi1, phi2))
+        self.assertTrue(torch.allclose(phi1, phi3))
+        self.assertTrue(torch.allclose(Q, G))
+
+    def test_CX2(self):
+        H2 = tmm(H, H)
+        Q = H2.mm(CX).mm(H2)
+        self.assertTrue(torch.allclose(Q, CX2))
+
+        aux = [complex(k + 10) for k in range(4)]
+        psi = tensor(aux, device=dev)
+        phi1 = CX2.mv(psi)
+        phi2 = apply(CX2, psi, [0, 1])
+        phi3 = psi[perm_CX2]
+        self.assertTrue(torch.allclose(phi1, phi2))
+        self.assertTrue(torch.allclose(phi1, phi3))
+
+        aux = [complex(k + 10) for k in range(8)]
+        psi = tensor(aux, device=dev)
+        Q = tmm(CX2, I(1))
+        qx = matrix2perm(Q)
+        phi1 = Q.mv(psi)
+        phi2 = apply(CX2, psi, [0, 1])
+        phi3 = psi[qx]
+        G = qgate(CX2, 3, [0, 1])
+
+        self.assertTrue(torch.allclose(phi1, phi2))
+        self.assertTrue(torch.allclose(phi1, phi3))
+        self.assertTrue(torch.allclose(Q, G))
