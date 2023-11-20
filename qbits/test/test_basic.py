@@ -60,3 +60,13 @@ class TestBasics(unittest.TestCase):
         q = inverse_perm(p)
         psi = torch.arange(32) + 100
         self.assertTrue(torch.allclose(psi, psi[p][q]))
+        r = compose(p, q)
+        self.assertListEqual(r, list(range(32)))
+
+    def test_compose(self):
+        p = [1, 2, 4, 3, 0]
+        q = [2, 4, 0, 1, 3]
+        p1 = inverse_perm(p)
+        q1 = inverse_perm(q)
+        self.assertListEqual(compose(p, p1), list(range(5)))
+        self.assertListEqual(compose(q, q1), list(range(5)))

@@ -91,6 +91,14 @@ def inverse_perm(perm: list) -> list:
     return result
 
 
+def compose(p: list, q: list) -> list:
+    """
+    :param p: a permutation
+    :param q: another permutation of same length
+    :return: the compostion of p and q
+    """
+    return [q[i] for i in p]
+
 def permute(perm: list) -> list:
     """
     :param perm: permutation of n integers 0, ..., n-1
@@ -114,29 +122,35 @@ def permute(perm: list) -> list:
     return [bin2int([b[i] for i in perm]) for b in bs]
 
 
-def permute_x(perm: list, args: list, n: int) -> list:
+def extend_perm(perm: list, args: list, n: int) -> list:
     """
-    :param perm: a permutation, len(perm) = k < n
+    :param perm: a permutation, len(perm) = 2**k
     :param args: a list of args, len(args) = k, args[i] < n
     :param n: total number variables
-    :return: a permutation of length 2**n
-    This is what happens: The permutation perm of length k
-    is extended to a permutation perm_x of length n by permuting args
-    according to perm, by and leaving all other indices in place. So,
-    perm = [2, 1, 0], args = [0, 2, 3], and n = 4 yields
-    perm_x = [3, 1, 2, 0].
-    The function permute is then applied to perm_x
+    :return: a perm extended to a permutation of length 2**n
+    This is what happens: The permutation perm of length 2**k
+    is extended by permuting args according to perm
+    and leaving all other indices in place. So,
+    perm = perm_CX = [0, 1, 3, 2], args = [1, 2], and n = 3 yields
+    [0, 1, 3, 2, 4, 5, 7, 6]
     """
-    k = len(perm)
-    if len(args) != k or k > n:
+
+    k = len(args)
+    if 2 ** k != len(perm):
         raise ValueError
 
-    perm_x = list(range(n))
-    perm_y = perm_x.copy()
-    for i in range(k):
-        perm_x[args[i]] = perm_y[args[perm[i]]]
+    result = []
+    for j in range(2 ** n):
+        b = int2bin(j, n)
+        b_args = [b[i] for i in args]
+        j_args = bin2int(b_args)
+        j_perm = perm[j_args]
+        b_perm = int2bin(j_perm, k)
+        for i in range(k):
+            b[args[i]] = b_perm[i]
+        result.append(bin2int(b))
 
-    return permute(perm_x)
+    return result
 
 
 def perm2matrix(perm: list) -> tensor:

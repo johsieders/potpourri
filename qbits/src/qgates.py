@@ -41,9 +41,9 @@ import random
 from cmath import exp, pi, sqrt
 
 import torch
-from torch import tensor, empty
+from torch import tensor, empty, zeros
 
-from basics import log2, int2bin, permute, perm2matrix, inverse_perm, dev, qtype
+from basics import log2, int2bin, perm2matrix, dev, qtype
 
 
 def measure(psi: tensor) -> tensor:
@@ -63,7 +63,22 @@ def norm(x):
     return sqrt(sum(x ** 2))
 
 
-def tmm(A: tensor, B: tensor) -> tensor:
+def tmm(*A: tensor) -> tensor:
+    """
+    :param A: a list of tensors
+    :return: tensor product of all tensors
+    """
+    if len(A) == 1:
+        return A[0].clone()
+    else:
+        result = tmm_(A[0], A[1])
+        for i in range(2, len(A)):
+            result = tmm(result, A[i])
+
+        return result
+
+
+def tmm_(A: tensor, B: tensor) -> tensor:
     """
     :param A: a tensor
     :param B: another tensor
@@ -172,26 +187,42 @@ def apply(Q: tensor, psi: tensor, args: list) -> tensor:
     apply(CX, x, [1. 2]) applies CX to qbits 1 and 2 of x
     apply(CX, x, [0, 2]) applies CX to qbits 0 and 2 of x
     """
-    k = len(args)
-    K = 2 ** k
+
+    K = Q.shape[0]
     N = psi.shape[0]
     n = log2(N)
-    if Q.shape[0] != K or k > n:
+    k = log2(K)
+    if (len(args) != k) or (k > n):
         raise ValueError
 
     non_args = [i for i in range(n) if i not in args]
-    p = permute(args + non_args)  # swap args to the front
-    q = inverse_perm(p)
-    R = tmm(Q, I(n - k))  # subject to optimization !
-    # perm_R = matrix2perm(R)
-    perm_R = None
-    if perm_R is None:
-        return R.mv(psi[p])[q]
-    else:
-        return psi[p][perm_R][q]  # that's three permutations
+
+    # idx is the main element of the following code.
+    # It is initialized to ":" overall.
+    # The args-part of idx remains unchanged.
+    # The non-args-part of idx runs through all non-arg qbits.
+    idx = [slice(None)] * n
+
+    y = psi.view(n * [2])  # a cube, shape = (2, 2, .., 2)
+    result = zeros(N, dtype=qtype).view(n * [2])  # a cube, shape = (2, 2, .., 2)
+
+    # run through all non-args qbits
+    # The complexity of this loop is 2**(n-k) * 2**(2k) = 2**(n+k)
+    # as opposed to 2**(2n), the complexity of the naive approach.
+    for j in range(2 ** (n - k)):
+        # update the non-arg part of idx according to j
+        bs = iter(int2bin(j, n - k))
+        for i in non_args:
+            idx[i] = next(bs)
+        z = y[idx].ravel()  # z is a vector, shape = (2**k)
+        r = Q.mv(z)  # Q applied to z yields r, shape = (2**k)
+        # each pass updates its own part of result.
+        result[idx] = r.view(k * [2])
+
+    return result.view(N)
 
 
-def make_qgate(Q, n, args) -> tensor:
+def qgate(Q, n, args) -> tensor:
     """
     :param Q: a tensor, shape = (2**k, 2**k)
     :param n: number of qbits, N = 2**n
@@ -199,7 +230,7 @@ def make_qgate(Q, n, args) -> tensor:
     :return: an NxN matrix which applies Q to the qbits given by args
     """
     B = I(n)
-    R = B.copy()
+    R = B.clone()
     for j in range(2 ** n):
         R[j] = apply(Q, B[j], args)
     return R.T
