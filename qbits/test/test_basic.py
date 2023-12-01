@@ -3,6 +3,7 @@
 import unittest
 
 from basics import *
+from qgates import perm2matrix, matrix2perm
 
 
 class TestBasics(unittest.TestCase):
@@ -11,7 +12,7 @@ class TestBasics(unittest.TestCase):
         N = 2 ** n
         B = torch.eye(N)
         for j in range(N):
-            b = basis2bin(B[j], n)
+            b = basis2bin(B[j])
             k = bin2int(b)
             psi = bin2basis(b)
             self.assertEqual(k, j)
@@ -31,33 +32,51 @@ class TestBasics(unittest.TestCase):
         self.assertEqual(p, q)
 
     def test_permute(self):
-        perm_x = permute([0, 1, 2])
-        self.assertListEqual(perm_x, list(range(8)))
-        perm_x = permute([1, 0, 2])
-        self.assertListEqual(perm_x, [0, 1, 4, 5, 2, 3, 6, 7])
+        # This is to explain torch.permute
+        # bs is just [[0, 0, 0], ... , [1, 1, 1]]
+        # That's all three-dimensional binary indices
+        # x is an arbitrary tensor with x.dim() = 3
+        # p is an arbitrary permutation of three indices
+        # q is its inverse
+        bs = [int2bin(j, 3) for j in range(8)]
+        x = torch.arange(8).view(2, 2, 2)
+        p = [2, 0, 1]
 
-        perm_x = permute_x([0, 1, 2], [0, 1, 2], 3)
-        self.assertListEqual(perm_x, list(range(8)))
-        perm_x = permute_x([1, 0, 2], [0, 1, 2], 3)
-        self.assertListEqual(perm_x, [0, 1, 4, 5, 2, 3, 6, 7])
-
-        perm_x = permute_x([0, 1, 2], [0, 1, 2], 4)
-        self.assertListEqual(perm_x, list(range(16)))
-        perm_x = permute_x([1, 0, 2], [0, 1, 2], 4)
-        self.assertListEqual(perm_x, [0, 1, 2, 3, 8, 9, 10, 11, 4, 5, 6, 7, 12, 13, 14, 15])
+        # x.permute(p) does essentially this: The statement
+        #
+        # y = x.permute(p)
+        #
+        # creates a new tensor via  y[p[.]] = x[.], or verbally:
+        # y[permuted index] = x[original index].
+        # This is what happens in the next 4 lines
+        y = torch.zeros_like(x)
+        for b in bs:
+            y[tuple([b[i] for i in p])] = x[tuple(b)]
+        z = x.permute(p)
+        self.assertTrue(torch.allclose(y, z))
+        #
+        # If you want to permute the other way round, that is:
+        # y[original index] = x[permuted index].
+        # you have to call torch.permute(inv_perm(p))
+        y = torch.zeros_like(x)
+        for b in bs:
+            y[tuple(b)] = x[tuple([b[i] for i in p])]
+        z = x.permute(inv_perm(p))
+        self.assertTrue(torch.allclose(y, z))
 
     def test_inverse_perm(self):
         psi = torch.arange(32) + 100
 
         p = list(range(32))
         p.reverse()
-        q = inverse_perm(p)
+        q = inv_perm(p)
         self.assertTrue(torch.allclose(psi, psi[p][q]))
+        self.assertTrue(torch.allclose(psi, psi[q][p]))
 
         p1 = list(range(16))
         p2 = list(range(16, 32))
         p = p2 + p1
-        q = inverse_perm(p)
+        q = inv_perm(p)
         psi = torch.arange(32) + 100
         self.assertTrue(torch.allclose(psi, psi[p][q]))
         r = compose(p, q)
@@ -66,7 +85,7 @@ class TestBasics(unittest.TestCase):
     def test_compose(self):
         p = [1, 2, 4, 3, 0]
         q = [2, 4, 0, 1, 3]
-        p1 = inverse_perm(p)
-        q1 = inverse_perm(q)
+        p1 = inv_perm(p)
+        q1 = inv_perm(q)
         self.assertListEqual(compose(p, p1), list(range(5)))
         self.assertListEqual(compose(q, q1), list(range(5)))

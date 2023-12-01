@@ -2,10 +2,39 @@
 # 6.10.2023
 
 
+import time
 import torch
+
 from torch import tensor, zeros
 
-from quantum import log2, qtype, dev
+from basics import log2, qtype, dev, int2bin, bin2int, perm
+
+
+def permute(perm: list) -> list:
+    """
+    :param perm: permutation of n integers 0, ..., n-1
+    :return: permutation of integers 0, ..., 2**n - 1
+    """
+    n = len(perm)
+    bs = [int2bin(j, n) for j in range(2 ** n)]
+    return [bin2int([b[i] for i in perm]) for b in bs]
+
+
+def test_perf():
+    p = list(range(15))
+    q = p[10:] + p[5:10] + p[:5]
+
+    start = time.perf_counter()
+    for i in range(100):
+        r = perm(q)
+    stop = time.perf_counter()
+    print(stop - start)
+
+    start = time.perf_counter()
+    for i in range(100):
+        r = permute(q)
+    stop = time.perf_counter()
+    print(stop - start)
 
 
 def apply_(Q: tensor, x: tensor, args: list) -> tensor:
@@ -84,3 +113,35 @@ def extend_(Q: tensor, args: list, n: int) -> tensor:
     for j in range(N):
         a = apply_(Q, B[j], args)
         result[:, j] = a
+
+
+# has been replaced with new versio of apply
+def extend_perm(perm: list, args: list, n: int) -> list:
+    """
+    :param perm: a permutation, len(perm) = 2**k
+    :param args: a list of args, len(args) = k, args[i] < n
+    :param n: total number variables
+    :return: a perm extended to a permutation of length 2**n
+    This is what happens: The permutation perm of length 2**k
+    is extended by permuting args according to perm
+    and leaving all other indices in place. So,
+    perm = perm_CX = [0, 1, 3, 2], args = [1, 2], and n = 3 yields
+    [0, 1, 3, 2, 4, 5, 7, 6]
+    """
+
+    k = len(args)
+    if 2 ** k != len(perm) or k > n:
+        raise ValueError
+
+    result = []
+    for j in range(2 ** n):
+        b = int2bin(j, n)
+        b_args = [b[i] for i in args]
+        j_args = bin2int(b_args)
+        j_perm = perm[j_args]
+        b_perm = int2bin(j_perm, k)
+        for i in range(k):
+            b[args[i]] = b_perm[i]
+        result.append(bin2int(b))
+
+    return result

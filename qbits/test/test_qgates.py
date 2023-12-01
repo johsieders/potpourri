@@ -5,7 +5,7 @@ import unittest
 import torch
 from torch import tensor
 
-from basics import dev, extend_perm, one_at
+from basics import dev, one_at
 from qgates import I, H, X, CX, CX2, FRED, U
 from qgates import perm_X, perm_CX, perm_CX2
 from qgates import tmm, apply, qgate, matrix2perm
@@ -98,22 +98,6 @@ class TestQGates(unittest.TestCase):
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
 
-    def test_extend_perm(self):
-        M = tmm(I(2), CX)
-        perm_M = matrix2perm(M)
-        perm = extend_perm(perm_CX, [2, 3], 4)
-        self.assertListEqual(perm_M, perm)
-
-        M = tmm(CX, I(2))
-        perm_M = matrix2perm(M)
-        perm = extend_perm(perm_CX, [0, 1], 4)
-        self.assertListEqual(perm_M, perm)
-
-        M = tmm(I(1), CX, I(1))
-        perm_M = matrix2perm(M)
-        perm = extend_perm(perm_CX, [1, 2], 4)
-        self.assertListEqual(perm_M, perm)
-
     def test_qgate(self):
         Q = qgate(CX, 2, [0, 1])
         self.assertTrue(torch.allclose(Q, CX))
@@ -173,3 +157,4 @@ class TestQGates(unittest.TestCase):
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
         self.assertTrue(torch.allclose(Q, G))
+

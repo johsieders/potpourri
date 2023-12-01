@@ -159,7 +159,7 @@ def permute_x(perm: list, args: list, n: int) -> list:
     :return: a permutation of length 2**n
     This is what happens: The permutation perm of length k
     is extended to a permutation perm_x of length n by permuting args
-    according to perm, by and leaving all other indices in place. So,
+    according to perm and leaving all other indices in place. So,
     perm = [2, 1, 0], args = [0, 2, 3], and n = 4 yields
     perm_x = [3, 1, 2, 0].
     The function permute is then applied to perm_x

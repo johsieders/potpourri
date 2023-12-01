@@ -44,7 +44,7 @@ from cmath import exp, pi, sqrt
 import torch
 from torch import tensor, empty, zeros
 
-from basics import log2, int2bin, dev, qtype
+from basics import log2, int2bin, dev, qtype, matrix2perm, perm2matrix
 
 
 def measure(psi: tensor) -> tensor:
@@ -56,50 +56,6 @@ def measure(psi: tensor) -> tensor:
     return random.choices(range(2 ** n), weights=psi ** 2)
 
 
-def norm(x):
-    """
-    :param x: a vector x
-    :return: the Euclidian norm of x
-    """
-    return sqrt(sum(x ** 2))
-
-
-def perm2matrix(perm: list) -> tensor:
-    """
-    :param perm: permutation of n integers 0, ..., n-1
-    :return: matrix permuting the columns of a state according to perm
-    example: perm = [1, 0, 2] swaps columns 0 and 1.
-    This yields the matrix
-    [[0, 1, 0],
-    [1, 0, 0],
-    [0, 0, 1]]
-    """
-    n = len(perm)
-    result = zeros(n ** 2, dtype=qtype, device=dev).view(n, -1)
-    for i in range(n):
-        result[i, perm[i]] = 1
-    return result
-
-
-def matrix2perm(M: tensor) -> list:
-    """
-    :param M: a matrix of size (n, n) permuting the columns of a state
-    :return: permutation of n integers 0, ..., n-1 if M represents a permutation,
-    None otherwise. Example:
-    M = [[0, 1, 0],
-    [1, 0, 0],
-    [0, 0, 1]]
-    yields perm = [1, 0, 2]
-    """
-    n = M.shape[0]
-    result = []
-    for i in range(n):
-        for j in range(n):
-            if torch.isclose(M[i, j], torch.tensor(1, dtype=qtype, device=dev)):
-                result.append(j)
-    return result if len(result) == n else None
-
-
 def tmm(*A: tensor) -> tensor:
     """
     :param A: a list of tensors
@@ -108,7 +64,7 @@ def tmm(*A: tensor) -> tensor:
     if len(A) == 1:
         return A[0].clone()
     else:
-        result = tmm_(A[0], A[1])
+        result = _tmm(A[0], A[1])
         for i in range(2, len(A)):
             result = tmm(result, A[i])
 
@@ -129,7 +85,8 @@ def mm(*A: tensor) -> tensor:
 
         return result
 
-def tmm_(A: tensor, B: tensor) -> tensor:
+
+def _tmm(A: tensor, B: tensor) -> tensor:
     """
     :param A: a tensor
     :param B: another tensor
@@ -230,14 +187,14 @@ def apply(Q: tensor, psi: tensor, args: list) -> tensor:
     :param args: a list; len(args) = k
     :return: result of Q applied to the qbits of x given by args, so:
 
-    X.shape = (2, 2)
-    apply(X, x, [0]) applies X to qubit 0 of x
-    apply(X, x, [1]) applies X to qubit 1 of x
+    X.shape = (2, 2), psi.shape = [4]
+    apply(X, psi, [0]) applies X to qubit 0 of x
+    apply(X, psi, [1]) applies X to qubit 1 of x
 
-    CX.shape = (4, 4)
-    apply(CX, x, [0, 1]) applies CX to qbits 0 and 1 of x
-    apply(CX, x, [1. 2]) applies CX to qbits 1 and 2 of x
-    apply(CX, x, [0, 2]) applies CX to qbits 0 and 2 of x
+    CX.shape = (4, 4), psi.shape = [8]
+    apply(CX, psi, [0, 1]) applies CX to qbits 0 and 1 of x
+    apply(CX, psi, [1. 2]) applies CX to qbits 1 and 2 of x
+    apply(CX, psi, [0, 2]) applies CX to qbits 0 and 2 of x
     """
 
     K = Q.shape[0]

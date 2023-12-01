@@ -67,44 +67,84 @@ def bin2basis(b: list) -> tensor:
     return result
 
 
-def basis2bin(s: tensor, n: int) -> list:
+def basis2bin(psi: tensor) -> list:
     """
-    todo: n = log2(len(s))
-    :param s: a basis state as tensor of size = (2**n, 1)
-    :param n:
+    :param psi: a basis state as tensor of size = (2**n, 1)
     :return: a binary index, e.g. [0,1, 1]
     Example:
     [1, 0, 0, 0, 0, 0, 0, 0].T -> [0, 0, 0]
     [0, 0, 0, 1, 0, 0, 0, 0].T -> [0, 1, 1]
     [0, 0, 0, 0, 0, 0, 0, 1].T -> [1, 1, 1]
     """
-    i = s.argmax()
+    n = log2(len(psi))
+    i = psi.argmax()
     return int2bin(i, n)
 
 
-def inverse_perm(perm: list) -> list:
-    """
-    :param perm: a permutation such as [1, 0, 2]
-    :return: the inverse permutation
-    """
-    result = [0] * len(perm)
-    for i, j in enumerate(perm):
-        result[j] = i
-    return result
+############################################################
+#            On Permutations                               #
+############################################################
+# let p = [p_0, p_1, ... p_n-1] be a permutation of [0, 1, ..., n-1]
+# Permutation means: all p_i are distinct. A permutation p maps
+# any list x of length n to another list y = p(x) of the same length.
+# Let q = [q_0, q_1, ... q_n-1] be another permutation of [0, 1, ..., n-1]
+# Then, the composition (p o q) can be explained as follows:
+#
+# p(x) = x[p] = [x[p[0]], x[p[1]], ..., x[p[n-1]]
+#             = [x[p[i]] for i in range(n)]
+#             = [x[i] for i in p]
+# p o q = p(q) = [q[p[0]], q[p[1]], ..., q[p[n-1]]
+#             = [q[p[i]] for i in range(n)]
+#             = [q[i] for i in p]
+# (p o q)(x)  = [x[(p o q)[0]], x[(p o q)[1]], ..., x[(p o q)[n-1]]]
+#             = [q[p[i]] for i in range(n)]
+#             = [x[q[i]] for i in p]
+#             = [x[i] for i in (p o q)]
+#
+# the inverse permutation r of p is given by the relation
+#     p[i] == j   <=>  r[j] = i
+#
+# This explains the functions compose(p, q) and inv_perm(p) below
 
 
 def compose(p: list, q: list) -> list:
     """
     :param p: a permutation
-    :param q: another permutation of same length
-    :return: the compostion of p and q
+    :param q: another permutation of the same length
+    :return: the composition (p o q)
     """
     return [q[i] for i in p]
 
 
-def permute(perm: list) -> list:
+def inv_perm(p: list) -> list:
     """
-    :param perm: permutation of n integers 0, ..., n-1
+    :param p: a permutation such as [1, 0, 2]
+    :return: the inverse permutation r which is given by the relation
+    p[i] == j   <=>  r[j] = i
+    """
+    result = [0] * len(p)
+    for i, j in enumerate(p):
+        result[j] = i
+    return result
+
+
+# Permuting the Dimension of Tensor
+# Let x be a tensor with x.dim() = n
+# Let i = [i[0], i[1], ..., i[n-1] be an index.
+# Each index defines an entry of x via:
+# [x[i[0]], x[i[1]], ...,x[i[n-1]]]
+# Now, let p be a permutation of length n and q be its inverse.
+# The function torch.permute(p) acts on x as follows:
+# If
+# y = x.permute(p),
+# then
+# [y[p[i[0]]], y[p[i[1]]], ...,y[p[i[n-1]]]] = [x[i[0]], x[i[1]], ...,x[i[n-1]]]
+# see test.test_basics.test_permute for more details
+
+
+def perm(p: list) -> list:
+    """
+    :param p: permutation of n integers 0, ..., n-1
     :return: permutation of integers 0, ..., 2**n - 1
     example: seq = [1, 0, 2] swaps columns 0 and 1.
     This yields [0, 1, 4, 5, 2, 3, 6, 7]
@@ -117,13 +157,13 @@ def permute(perm: list) -> list:
     6: [1, 1, 0]
     7: [1, 1, 1]
 
-    Let x be a basis state, then permute(seq) permutes the columns of x.
-    Then x[permute(seq)] is the permuted state.
+    Let x be a basis state.
+    Then x[tuple(perm(p))] is the permuted state.
     """
-    n = len(perm)
-    bs = [int2bin(j, n) for j in range(2 ** n)]
-    return [bin2int([b[i] for i in perm]) for b in bs]
-
+    n = len(p)
+    x = torch.arange(2 ** n).view(n * [2])
+    y = x.permute(inv_perm(p))
+    return [a.item() for a in y.ravel()]
 
 
 def one_at(i: int) -> Callable:
@@ -141,33 +181,41 @@ def one_at(i: int) -> Callable:
     return aux
 
 
-# has been replaced with new versio of apply
-def extend_perm(perm: list, args: list, n: int) -> list:
+def perm2matrix(perm: list) -> tensor:
     """
-    :param perm: a permutation, len(perm) = 2**k
-    :param args: a list of args, len(args) = k, args[i] < n
-    :param n: total number variables
-    :return: a perm extended to a permutation of length 2**n
-    This is what happens: The permutation perm of length 2**k
-    is extended by permuting args according to perm
-    and leaving all other indices in place. So,
-    perm = perm_CX = [0, 1, 3, 2], args = [1, 2], and n = 3 yields
-    [0, 1, 3, 2, 4, 5, 7, 6]
+    :param perm: permutation of n integers 0, ..., n-1
+    :return: matrix permuting the columns of a state according to perm
+    example: perm = [1, 0, 2] swaps columns 0 and 1.
+    This yields the matrix
+    [[0, 1, 0],
+    [1, 0, 0],
+    [0, 0, 1]]
     """
+    n = len(perm)
+    result = zeros(n ** 2, dtype=qtype, device=dev).view(n, n)
+    for i in range(n):
+        result[i, perm[i]] = 1
+    return result
 
-    k = len(args)
-    if 2 ** k != len(perm) or k > n:
+
+def matrix2perm(M: tensor) -> list:
+    """
+    :param M: a matrix of size (n, n) permuting the columns of a state
+    :return: permutation of n integers 0, ..., n-1 if M represents a permutation,
+    None otherwise. Example:
+    M = [[0, 1, 0],
+    [1, 0, 0],
+    [0, 0, 1]]
+    yields
+    perm = [1, 0, 2]
+    """
+    n = M.shape[0]
+    if M.shape[1] != n:
         raise ValueError
 
     result = []
-    for j in range(2 ** n):
-        b = int2bin(j, n)
-        b_args = [b[i] for i in args]
-        j_args = bin2int(b_args)
-        j_perm = perm[j_args]
-        b_perm = int2bin(j_perm, k)
-        for i in range(k):
-            b[args[i]] = b_perm[i]
-        result.append(bin2int(b))
-
-    return result
+    for i in range(n):
+        for j in range(n):
+            if torch.isclose(M[i, j], torch.tensor(1, dtype=qtype, device=dev)):
+                result.append(j)
+    return result if len(result) == n else None
