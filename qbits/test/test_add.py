@@ -2,8 +2,8 @@
 
 import unittest
 
-from basics import matrix2perm, uncurry
-from qcatalogue import *
+from qbasics import matrix2perm, uncurry
+from qcat import *
 
 
 class TestPrograms(unittest.TestCase):

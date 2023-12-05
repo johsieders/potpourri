@@ -2,8 +2,9 @@
 
 import unittest
 
-from basics import *
-from qcatalogue import X, CX, TOFF
+from qappl import curry
+from qbasics import *
+from qcat import X, CX, TOFF
 
 
 class TestBasics(unittest.TestCase):

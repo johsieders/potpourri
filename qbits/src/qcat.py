@@ -42,7 +42,15 @@ from cmath import exp, pi, sqrt
 import torch
 from torch import tensor
 
-from basics import I, qtype, dev, int2bin, perm2matrix, tmm
+from qbasics import qtype, dev, int2bin, perm2matrix, tmm
+
+
+def I(n: int) -> tensor:
+    """
+    :param n: number of qbits, N = 2 ** n
+    :return: identity matrix of shape (N, N)
+    """
+    return torch.eye(2 ** n, dtype=qtype, device=dev)
 
 
 def U(f, n):

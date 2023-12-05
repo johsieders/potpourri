@@ -5,7 +5,7 @@
 
 import bayes.impl.abstract as abstract
 import pomegranate as pome
-from basics.binaries import int2bin
+from qbasics.binaries import int2bin
 
 
 def make_pome_network(name, bst, fpt):

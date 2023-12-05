@@ -3,11 +3,11 @@
 
 
 import time
-import torch
 
+import torch
 from torch import tensor, zeros
 
-from basics import log2, qtype, dev, int2bin, bin2int, perm
+from qbasics import log2, qtype, dev, int2bin, bin2int, perm
 
 
 def permute(perm: list) -> list:

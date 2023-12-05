@@ -5,9 +5,9 @@ import unittest
 import torch
 from torch import tensor
 
-from basics import dev, one_at, apply, uncurry, matrix2perm, tmm
-from qcatalogue import (perm_X, perm_CX, perm_CX2,
-                        I, H, X, CX, CX2, FRED, INC, U)
+from qbasics import dev, one_at, apply, uncurry, matrix2perm, tmm
+from qcat import (perm_X, perm_CX, perm_CX2,
+                  I, H, X, CX, CX2, FRED, INC, U)
 
 
 class TestQGates(unittest.TestCase):
