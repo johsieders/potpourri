@@ -5,7 +5,8 @@
 import torch
 from torch import tensor, zeros
 
-from qbasics import bin2int, int2bin, log2, matrix2perm, qtype, I
+from qbasics import bin2int, int2bin, log2, matrix2perm, qtype
+from qcat import I
 
 
 def apply(Q: tensor, psi: tensor, args: list) -> tensor:

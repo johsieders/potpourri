@@ -10,8 +10,6 @@ from torch import tensor, empty, zeros
 
 qtype = torch.complex64
 dev = torch.device('cpu')
-
-
 # dev = torch.device('cuda')
 
 

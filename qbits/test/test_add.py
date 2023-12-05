@@ -2,7 +2,8 @@
 
 import unittest
 
-from qbasics import matrix2perm, uncurry
+from qappl import uncurry
+from qbasics import matrix2perm
 from qcat import *
 
 

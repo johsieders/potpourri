@@ -86,7 +86,6 @@ SWAP = perm2matrix(perm_SWAP)  # CX * CX2 * CX
 TOFF = perm2matrix(perm_TOFF)
 FRED = perm2matrix(perm_FRED)
 
-
 # Pauli-Y
 Y = tensor([[0, -1j],
             [1j, 0]], dtype=qtype, device=dev)

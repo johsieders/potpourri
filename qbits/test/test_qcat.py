@@ -5,7 +5,8 @@ import unittest
 import torch
 from torch import tensor
 
-from qbasics import dev, one_at, apply, uncurry, matrix2perm, tmm
+from qappl import apply, uncurry
+from qbasics import dev, one_at, matrix2perm, tmm
 from qcat import (perm_X, perm_CX, perm_CX2,
                   I, H, X, CX, CX2, FRED, INC, U)
 
