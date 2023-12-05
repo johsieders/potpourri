@@ -7,7 +7,8 @@ from cmath import sqrt
 
 from torch import tensor
 
-from scratch.quantum import BELL, I, X, Z, tmm, tpow, applyX, bin2basis, norm, qtype
+from basics import bin2basis, qtype
+from qcatalogue import BELL, I, X, Z, tmm, tpow, apply
 
 
 def superdense():
@@ -42,7 +43,7 @@ def superdense():
             Q = [tmm(tpow(X, b), I), tmm(tpow(Z, a), I)]
 
             # and applies Q to state1
-            state2 = applyX(Q, state1)
+            state2 = apply(Q, state1)
 
             # state2 is sent to Bob who decodes it by applying BELL.T
             # Bob sees state3 = BELL.T * state2 = |a, b> = message

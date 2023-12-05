@@ -5,10 +5,9 @@ import unittest
 import torch
 from torch import tensor
 
-from basics import dev, one_at
-from qgates import I, H, X, CX, CX2, FRED, U
-from qgates import perm_X, perm_CX, perm_CX2
-from qgates import tmm, apply, qgate, matrix2perm
+from basics import dev, one_at, apply, uncurry, matrix2perm, tmm
+from qcatalogue import (perm_X, perm_CX, perm_CX2,
+                        I, H, X, CX, CX2, FRED, INC, U)
 
 
 class TestQGates(unittest.TestCase):
@@ -21,7 +20,7 @@ class TestQGates(unittest.TestCase):
         phi3 = psi[perm_X]
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
-        G = qgate(X, 1, [0])
+        G = uncurry(X, 1, [0])
         self.assertTrue(torch.allclose(X, G))
 
         for i in range(1):
@@ -34,7 +33,7 @@ class TestQGates(unittest.TestCase):
             phi3 = psi[qx]
             self.assertTrue(torch.allclose(phi1, phi2))
             self.assertTrue(torch.allclose(phi1, phi3))
-            G = qgate(X, 2, [i])
+            G = uncurry(X, 2, [i])
             self.assertTrue(torch.allclose(Q, G))
 
         aux = [complex(k + 10) for k in range(8)]
@@ -46,7 +45,7 @@ class TestQGates(unittest.TestCase):
         phi3 = psi[qx]
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
-        G = qgate(X, 3, [2])
+        G = uncurry(X, 3, [2])
         self.assertTrue(torch.allclose(Q, G))
 
     def test_CX(self):
@@ -58,7 +57,7 @@ class TestQGates(unittest.TestCase):
         phi3 = psi[perm_CX]
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
-        G = qgate(CX, 2, [0, 1])
+        G = uncurry(CX, 2, [0, 1])
         self.assertTrue(torch.allclose(CX, G))
 
         # apply CX to [0, 1] of [0, 1, 2]
@@ -71,7 +70,7 @@ class TestQGates(unittest.TestCase):
         phi3 = psi[qx]
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
-        G = qgate(CX, 3, [0, 1])
+        G = uncurry(CX, 3, [0, 1])
         self.assertTrue(torch.allclose(Q, G))
 
         # apply CX to [1, 2] of [0, 1, 2]
@@ -84,13 +83,13 @@ class TestQGates(unittest.TestCase):
         phi3 = psi[qx]
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
-        G = qgate(CX, 3, [1, 2])
+        G = uncurry(CX, 3, [1, 2])
         self.assertTrue(torch.allclose(Q, G))
 
         # apply CX to [0, 2] of [0, 1, 2]
         aux = [complex(k + 10) for k in range(8)]
         psi = tensor(aux, device=dev)
-        Q = qgate(CX, 3, [0, 2])
+        Q = uncurry(CX, 3, [0, 2])
         qx = matrix2perm(Q)
         phi1 = Q.mv(psi)
         phi2 = apply(CX, psi, [0, 2])
@@ -99,10 +98,19 @@ class TestQGates(unittest.TestCase):
         self.assertTrue(torch.allclose(phi1, phi3))
 
     def test_qgate(self):
-        Q = qgate(CX, 2, [0, 1])
+        Q = uncurry(CX, 2, [0, 1])
         self.assertTrue(torch.allclose(Q, CX))
-        Q = qgate(FRED, 3, [0, 1, 2])
+        Q = uncurry(FRED, 3, [0, 1, 2])
         self.assertTrue(torch.allclose(Q, FRED))
+
+        aux = [complex(k + 10) for k in range(8)]
+        psi = tensor(aux, device=dev)
+
+        for args in [[0, 1], [0, 2], [1, 2]]:
+            R = uncurry(CX, 3, args)
+            phi1 = apply(CX, psi, args)
+            phi2 = R.mv(psi)
+            self.assertTrue(torch.allclose(phi1, phi2))
 
     def test_Uf(self):
         aux = [complex(k + 10) for k in range(8)]
@@ -114,7 +122,7 @@ class TestQGates(unittest.TestCase):
         phi1 = Q.mv(psi)
         phi2 = apply(Q, psi, [0, 1, 2])
         phi3 = psi[qx]
-        G = qgate(Q, 3, [0, 1, 2])
+        G = uncurry(Q, 3, [0, 1, 2])
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
         self.assertTrue(torch.allclose(Q, G))
@@ -127,7 +135,7 @@ class TestQGates(unittest.TestCase):
         phi1 = Q.mv(psi)
         phi2 = apply(Uf, psi, [1, 2, 3])
         phi3 = psi[qx]
-        G = qgate(Uf, 4, [1, 2, 3])
+        G = uncurry(Uf, 4, [1, 2, 3])
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
         self.assertTrue(torch.allclose(Q, G))
@@ -152,9 +160,22 @@ class TestQGates(unittest.TestCase):
         phi1 = Q.mv(psi)
         phi2 = apply(CX2, psi, [0, 1])
         phi3 = psi[qx]
-        G = qgate(CX2, 3, [0, 1])
+        G = uncurry(CX2, 3, [0, 1])
 
         self.assertTrue(torch.allclose(phi1, phi2))
         self.assertTrue(torch.allclose(phi1, phi3))
         self.assertTrue(torch.allclose(Q, G))
 
+    def test_INC(self):
+        # This testcase shows the equivalence of qgate and tmm
+        # tmm is ok when the given qgate (INC in this case) is applied
+        # to contiguous qbits
+        n = 4
+        for k in range(n - 1):
+            Q = tmm(I(k), INC, I(n - k - 2))
+            R = uncurry(INC, n, range(k, k + 2))
+            self.assertTrue(torch.allclose(Q, R))
+
+        # otherwise, it is not
+        # if INC is applied to [0, 3] then tmm is of no use
+        R = uncurry(INC, n, [0, 3])
