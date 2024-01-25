@@ -1,14 +1,31 @@
 # check prime utilities
 # reworked 20/07/2023
-# js
+# checked 07/01/2024
 
+import time
 import unittest
 from functools import reduce
 
-from nums.src.primes import *
+from mp import Mp
+from polynomials import Polynomial
+from primes import *
 
 
 class TestPrimes(unittest.TestCase):
+
+    def test_get_primes(self):
+        ps = get_primes(20)
+        print(ps)
+
+    def test_aux(self):
+        p = 17
+        e = 0  # exponent
+        r = 17  # remainder
+        while r % p == 0:
+            e += 1
+            r //= p
+        print(e, r)
+
     def testPrimefactors(self):
         ps = get_primes(10000)
         for n in range(2, 1000):
@@ -30,8 +47,43 @@ class TestPrimes(unittest.TestCase):
             self.assertEqual(1, a * b % m)
 
     def testChineseRemainder(self):
-        data = [([0, 2], [2, 3]), ([2, 3], [3, 5]), ([2, 3, 2], [3, 5, 7])]
+        data = [([3], [7]), ([0, 2], [2, 3]), ([2, 3], [3, 5]), ([2, 3, 2], [3, 5, 7])]
         for a, m in data:
             b = chinese_remainder(a, m)
             for i in range(len(a)):
                 self.assertEqual(a[i] % m[i], b % m[i])
+
+    def testChineseRemainderOnPolynomials(self):
+        m = Polynomial(1, 0, 1)
+        p = Polynomial(1, 1)
+        q = inv(p, m)
+        print(q)
+        self.assertEqual(1, p * q % m)
+
+    def testChineseRemainderOnMp(self):
+        p = Mp(3, (7,))
+        q = 1 / p
+        print(q)
+        self.assertEqual(1, p * q)
+
+    def testChineseRemainder_(self):
+        m1 = get_primes(200)
+        m = [p for p in m1 if p > 100]
+
+        start = time.time()
+        for n in range(100000, 120000):
+            a = [n % p for p in m]
+            k = chinese_remainder_(a, m)
+            self.assertEqual(k, n)
+        stop = time.time()
+        t1 = stop - start
+
+        start = time.time()
+        for n in range(100000, 120000):
+            a = [n % p for p in m]
+            k = chinese_remainder(a, m)
+            self.assertEqual(k, n)
+        stop = time.time()
+        t2 = stop - start
+
+        print(t1, t2)

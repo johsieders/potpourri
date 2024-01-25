@@ -1,28 +1,29 @@
-## trying to understand intervals
-## js 8.6.04
-## optimization by binary search
-## js 26.6.04
-## relaunch 21.11.04
-## 26.12.04  ok
-## 6.3.2013 major revision: vlists as step functions
+# trying to understand intervals
+# js 8.6.04
+# optimization by binary search
+# js 26.6.04
+# relaunch 21.11.04
+# 26.12.04  ok
+# 6.3.2013 major revision: vlists as step functions
+# 07.01.2024 general check
 
 from bisect import bisect_right, bisect_left
 from itertools import cycle
 from operator import and_, or_
 
-from stepfunctions import fmerge, Stepfun
+from stepfunctions__ import fmerge, Stepfun
 
 flip = lambda f: lambda x, y: f(y, x)  # flips args
 
 
-def isInterval(v):
+def is_interval(v):
     """ v : list or tuple of length 2 """
     return isinstance(v, (tuple, list)) and len(v) == 2
 
 
 def isEmptyInterval(v):
     """ v : list or tuple of length 2 """
-    if not isInterval(v):
+    if not is_interval(v):
         raise TypeError
 
     return v[0] is not None and v[1] is not None and v[1] <= v[0]
@@ -66,8 +67,8 @@ class Vlist(Stepfun):
         return self.values[0]
 
     def inside(self, k):
-        ## if leftopen : return true for uneven k
-        ## else : return true for even k
+        # if leftopen : return true for uneven k
+        # else : return true for even k
         return self.leftunbounded() != k % 2
 
     def __call__(self, x):

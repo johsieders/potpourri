@@ -1,5 +1,5 @@
 ## js 12.12.2020
-# Comparing my Polynom with that of numpy.
+# Comparing my Polynomial with that of numpy.
 # Main differences
 # - you need trim() to trim leading zeros
 # - coefficients are accessed by p.coef

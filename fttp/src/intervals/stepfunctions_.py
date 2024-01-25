@@ -35,9 +35,7 @@ def fmerge(op: Callable, *fs: Iterable) -> Iterator:
                 im = min(range(len(head)), key=lambda h: h[0])
                 m = head[im][0]
         else:  # all f are done
-            return
-
-        head[]
+            return head[]
 
         for f in fs:  # update values
             if head[f] and head[f][0] == m:

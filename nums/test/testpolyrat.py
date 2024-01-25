@@ -1,13 +1,15 @@
-## checkInvariants polynoms of rationals
-## js 16.12.2020
+# checkInvariants polynoms of rationals
+# js 16.12.2020
+# revisited 08.01.2024
 
 import unittest
 
-from nums.polynomial import Polynomial
-from nums.rational import Rational
+from polynomials__ import Polynomial
+
+from rationals import Rational
 
 
-class TestPolynom(unittest.TestCase):
+class TestPolynomial(unittest.TestCase):
     def testWithRational(self):
         z = Rational(0)
         r = Rational(1)

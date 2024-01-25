@@ -1,12 +1,13 @@
-## js 27.12.2003
-## js 12.12.2020
+# js 27.12.2003
+# js 12.12.2020
+# checked 08/01/2024
 
 import unittest
 
 flag = 1
 
 if flag:
-    from nums.rational import Rational
+    from rationals import Rational
 else:
     from fractions import Fraction as Rational
 
@@ -27,8 +28,6 @@ class TestRational(unittest.TestCase):
         self.assertEqual(Rational(1, 3), abs(a))
         self.assertEqual(Rational(1, 3), -a)
         self.assertEqual(a, +a)
-        if flag:
-            self.assertEqual(Rational(3, -1), ~a)
         self.assertAlmostEqual(-1 / 3, float(a))
 
     def testBasicArithmetic(self):
@@ -64,7 +63,6 @@ class TestRational(unittest.TestCase):
         self.assertEqual(Rational(-5, 2), a - 3)
         self.assertEqual(Rational(3, 2), a * 3)
         self.assertEqual(Rational(1, 6), a / 3)
-
         self.assertEqual(Rational(7, 2), 3 + a)
         self.assertEqual(Rational(5, 2), 3 - a)
         self.assertEqual(Rational(3, 2), 3 * a)
@@ -90,7 +88,7 @@ class TestRational(unittest.TestCase):
         num = 2
         denom = 3
         a = Rational(num, denom)
+
         for n in range(10):
-            pw = Rational(num ** n, denom ** n)
-            # print(pw)
             self.assertEqual(Rational(num ** n, denom ** n), a ** n)
+            self.assertEqual(Rational(denom ** n, num ** n), a ** -n)

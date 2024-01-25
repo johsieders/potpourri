@@ -2,6 +2,8 @@
 # fasttrack to professional programming
 # lesson ??: programming the sudoku_simon game
 # 27.1.2021, 28.1.2021
+#
+
 from abc import ABC
 from string import digits
 

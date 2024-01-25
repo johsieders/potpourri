@@ -26,7 +26,7 @@ import xxx as np
 from by.util.digraphs import forward_star, sources, sinks, bst_equals, is_symmetric, mirror, gen_bst_full, matches, \
     fpt2np
 
-from scratch.scratch import binary_cube, fpt_equals, rev_int, log2
+from misc.scratch import binary_cube, fpt_equals, rev_int, log2
 
 
 class BayesianNetwork(object):

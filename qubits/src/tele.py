@@ -5,10 +5,10 @@
 
 from cmath import sqrt
 
+from qcat import BELL, I, X, Z, tmm, tpow, apply
 from torch import tensor
 
 from qbasics import bin2basis, qtype
-from qcat import BELL, I, X, Z, tmm, tpow, apply
 
 
 def superdense():

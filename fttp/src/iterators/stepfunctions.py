@@ -1,7 +1,7 @@
 from bisect import bisect_right
 from functools import reduce
 
-from warmingup.types import Callable, Iterable, Iterator
+from typing import Callable, Iterable, Iterator
 
 
 # todo

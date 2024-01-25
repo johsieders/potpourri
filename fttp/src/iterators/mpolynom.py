@@ -2,7 +2,7 @@
 # js, 25.05.01
 # ueberarbeitung 29.12.03, 1.1.2004, 15.7.2004, 9.8.2004
 
-from de.fhro.inf.fputil import flip
+
 from poly import Polynom
 
 
@@ -13,7 +13,7 @@ class MPolynom(object):
     any polynom has at least one coefficient.
     a polynom is zero iff its only coefficient is zero
 
-    This class is intended for polynoms over any field
+    This class is intended for polynomials over any field
     self.__zero = cs[0] - cs[0]
     coefficients must support +, -, *, /, bool
     """

@@ -4,7 +4,7 @@
 
 import unittest
 
-from intervals.vlist import *
+from fttp.src.intervals.vlist import *
 
 N = 10
 

@@ -1,6 +1,5 @@
 # Testing torchtext and sentencepiece
 
-import torch
 from sentencepiece import *
 from torch import *
 from torchtext import data

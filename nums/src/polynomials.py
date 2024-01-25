@@ -3,233 +3,159 @@
 # ueberarbeitung 29.12.03, 1.1.2004, 15.7.2004, 9.8.2004
 # ueberarbeitung 4.12.2020
 # Idee, alles einfacher, nur int, aber vollständig
+# checked 08/01/2024
 
-from collections.abc import Collection
 from functools import reduce
+from typing import Sequence
 
-from types_ import NewType, Callable, Sequence
+from euclidian_rings import EuclidianRing
+from fields import Field
+
+epsilon = 1e-8
 
 
-def flip(f: Callable) -> Callable:
-    return lambda x, y: f(y, x)  # flips args
-
-
-def lastIdx(a: Sequence[int]) -> int:
+def truncate(xs, eps=epsilon):
     """
-    :param a: a list of int
-    :return: largest index idx such that a[i] = 0 for i >= idx
-    -1 if a is empty
+    removes leading zeros
+    :param xs: a list
+    :return: xs with leading zeros removed or [0] if xs contains only zeros
     """
-    i = len(a) - 1
-    while i > 0 and not a[i]:
-        i -= 1
-    return i + 1
+    if len(xs) == 0:
+        return xs
+
+    i = 0
+    for i, x in enumerate(xs):
+        if abs(x) > eps:
+            break
+
+    return xs[i:] if i < len(xs) else [xs[0]]
 
 
-Coefficient = NewType('coefficient', any)
-
-
-class Polynomial(list):
+class Polynomial(EuclidianRing, list):
     """
-    p(x) = a[0] + a[1]x + a[2]x**2 + .. + a[n-2]x**(n-2) + a[n-1]x**(n-1)
+    p(x) = a[0]x**(n-1) + a[1]x**(n-2) + ... + a[n-2]x + a[n-1]
     Invariants:
-    - no trailing zeros
-    - each polynom has at least one coefficient.
+    - no leading zeros
+    - each polynomial has at least one coefficient.
     - Highest coefficient is not zero unless the polynom is zero.
-    - a polynom is zero iff its only coefficient is zero.
+    - a polynomial is zero iff its only coefficient is zero.
 
-    All meaningful operators are overloaded (in place included) .
+    All meaningful operators are overloaded.
     Mixed arithmetic with collections implemented.
-    In place operators (iadd, isub, ..) are really in place (no unnecessary objects)
-    Polynoms ARE list, any kind of subscripting works ([:] and the like)
+    Polynomials ARE list, any kind of subscripting works ([:] and the like)
 
-    Assumptions about Coefficient, the datatype of coefficients (hold for Rational):
-    - X(0), X(1) work
-    - bool is defined
-    - comparison operators are defined (<, <=, ==)
+    The class Polynomials implements polynomials over a field:
     - unary operators are defined (-, +)
     - binary operators are defined (+, -, /)
-    - on place operators are +=, -=, *= are defined
-
-    Comparisons:
-    lt: p < q iff (p - q)[-1] < 0, that is: p - q --> limit < 0 for x --> + oo
-    le: p <= q iff (p - q)[-1] <= 0 that is: p - q --> limit >= 0 for x --> + oo (or == 0)
-    le: p == q iff (p - q)[-1] == 0
     """
 
-    def __init__(self, a: Coefficient):
+    def __init__(self, *coefficients: Field):
         """
-        :param a: sequence of coefficients, trailing zeros are trimmed
-        If a is a single object (a number) it is replaced with [a]
+        :param coefficients: sequence of coefficients, trailing zeros are trimmed
         """
-        if not isinstance(a, Collection):
-            a = [a]
-        if len(a) == 0:
+        if len(coefficients) == 0:
             raise ValueError
+
+        if isinstance(coefficients[0], Sequence):
+            coefficients = coefficients[0]
 
         # trim trailing zeros
-        super().__init__(a[:lastIdx(a)])
-        self.coef = self  # for compatiblity with numpy
+        super().__init__(truncate(coefficients))
 
-    def degree(self) -> int:
-        return len(self) - 1
+    def transform(self, x):
+        return x if isinstance(x, Polynomial) else Polynomial(x)
 
-    def trim(self):  # for compatiblity with numpy
-        return Polynomial(self)
-
-    def __bool__(self):
-        return len(self) > 1 or bool(self[0])
-
-    def __call__(self, x: any) -> any:
-        tmp = list(self)
-        tmp.append(0)
-        tmp.reverse()
-        return reduce(lambda a, b: x * a + b, tmp)
-
-    def __str__(self):
-        string = ''
-        for a in self:
-            string += str(a) + ', '
-        return '[' + string[:-2] + ']'
-
-    #########################
-    # comparison operators	#
-    #########################
-
-    def __lt__(self, p):
-        if not isinstance(p, Polynomial):
-            p = Polynomial(p)
-        return (self - p)[-1] < 0
-
-    def __le__(self, p):
-        if not isinstance(p, Polynomial):
-            p = Polynomial(p)
-        return (self - p)[-1] <= 0
-
-    def __eq__(self, p):
-        if not isinstance(p, Polynomial):
-            p = Polynomial(p)
-        return (self - p)[-1] == 0
-
-    #########################
-    # arithmetic operators	#
-    #########################
-
-    def __neg__(self):
-        return Polynomial([-a for a in self])
-
-    def __pos__(self):
-        return Polynomial(self)
-
-    def __add__(self, p):
-        result = Polynomial(self)
-        result += p
-        return result
-
-    def __iadd__(self, p):
+    def lt(self, p):
         """
-        :param p: a polynom or whatever can be made one
-        :return: self + Polynom(p)
+        :param p: another Polynom
+        :return: True if len(self) < len(p) or self == [0] and p != [0]
         """
-        if not isinstance(p, Polynomial):
-            p = Polynomial(p)
-        if not p:
-            return self
+        return len(self) < len(p) or not self and p
 
-        m = min(len(self), len(p))
-        self.extend(p[len(self):])
-        for i, a in enumerate(p[:m]):
-            self[i] += a
-
-        del self[lastIdx(self):]  # trim trailing zeros
-        return self
-
-    def __sub__(self, p):
+    def __bool__(self, eps=epsilon):
         """
-        :param p: a polynom or whatever can be made one
-        :return: self - Polynom(p)
+        :return: True if self(0) != 0
+        A polynomial p is not zero iff p(0) != 0
         """
-        result = Polynomial(self)
-        result += -p
-        return result
+        return abs(self[0]) >= eps
 
-    def __isub__(self, p):
-        return self.__iadd__(-p)
-
-    def __mul__(self, p):
-        result = Polynomial(self)
-        result *= p
-        return result
-
-    def __imul__(self, p):
+    def eq(self, p):
         """
-        :param p: a polynom or whatever can be made one
-        :return: self * Polynom(p)
+        :param p: another Polynom
+        :return: True if self and p are close after normalizing
+        Polynomials p, q are considered equal iff they differ by a constant factor,
+        that is p = x * q or q = x * p
         """
-        if not isinstance(p, Polynomial):
-            p = Polynomial(p)
 
-        if not p or not self:  # one factor is zero
-            self[:] = [0]
-            return self
+        if self < p or p < self:
+            return False
+        elif not (self or p):
+            return True
         else:
-            aux = [0] * (len(self) + len(p) - 1)
-            for i in range(len(self)):
-                for j in range(len(p)):
-                    aux[i + j] += self[i] * p[j]
-            self[:] = aux[:]
-            return self
+            q, r = self.my_divmod(p) if p else p.my_divmod(self)
+            return len(q) == 1 and not r
 
-    def __floordiv__(self, p):
-        return self.__divmod__(p)[0]
-
-    def __ifloordiv__(self, p):
-        q = self.__divmod__(p)[0]
-        self[:] = q[:]
-        return self
-
-    def __mod__(self, p):
-        return self.__divmod__(p)[1]
-
-    def __divmod__(self, p):
+    def add(self, q):
         """
-        :param p: divisor
-        :return: quotient q and remainder r of self and p
+        :param q: a polynomial or a list of coefficients
+        :return: self + q
         """
-        if not isinstance(p, Polynomial):
-            p = Polynomial(p)
-        if not p:  # denominator must not be zero
+        a, b = (self, q) if len(self) < len(q) else (q, self)
+        # now len(a) <= len(b)
+        result = list(b)
+        for i in range(1, len(a) + 1):
+            result[-i] += a[-i]
+
+        return Polynomial(*result)
+
+    def sub(self, q):
+        """
+        :param q: a polynomial or a list of coefficients
+        :return: self - q
+        """
+        q = [-x for x in q]
+        return self.add(q)
+
+    def mul(self, q):
+        """
+        :param q: a polynomial or a list of coefficients
+        :return: self * q
+        """
+        result = [0] * (len(self) + len(q) - 1)
+        for i in range(len(self)):
+            for j in range(len(q)):
+                result[i + j] += self[i] * q[j]
+
+        return Polynomial(*result)
+
+    def my_divmod(self, q):
+        """
+        :param q: divisor
+        :return: quotient and remainder of self and q
+        """
+
+        if not q:  # denominator must not be zero
             raise ValueError
 
-        q = []  # the to-be-quotient
-        r = list(self)  # the to-be-remainder
-        while len(r) >= len(p):
-            c = r[-1] / p[-1]
-            q.append(c)
-            for i in range(-len(p), 0):
-                r[i] -= c * p[i]
-            del r[-1]
+        remainder = list(self)
+        diff = len(remainder) - len(q)
+        quotient = [0] * (max(0, diff) + 1)  # length of quotient
 
-        if len(r) == 0:  # r empty if no remainder
-            r = [0]
-        if len(q) == 0:  # q empty if len(self) < len(p)
-            q[:] = [0]
-        else:
-            q.reverse()
+        while remainder[0] and diff >= 0:
+            c = remainder[0] / q[0]
+            for i in range(min(len(remainder), len(q))):
+                remainder[i] -= c * q[i]
+            quotient[-diff - 1] = c
+            remainder = truncate(remainder)
+            diff = len(remainder) - len(q)
 
-        return Polynomial(q), Polynomial(r)
+        return Polynomial(*quotient), Polynomial(*remainder)
 
-    def __pow__(self, n):
-        result = Polynomial(1)
-        for _ in range(n):
-            result *= self
-        return result
+    def __abs__(self):
+        return abs(self(0))
 
-    # make operators with reversed operands
-    __radd__ = __add__
-    __rmul__ = __mul__
-    __rsub__ = flip(__sub__)
-    __rfloordiv__ = flip(__floordiv__)
-    __rmod__ = flip(__mod__)
-    __ge__ = flip(__le__)
-    __gt__ = flip(__lt__)
+    def __str__(self):
+        return 'Poly[' + ', '.join([str(c) for c in self]) + ']'
+
+    def __call__(self, x):
+        return reduce(lambda a, b: x * a + b, self)

@@ -3,10 +3,9 @@
 
 import unittest
 
-from warmingup.warmingup2 import faculty
-
 from searching.conjoin import *
 from searching.searching2 import *
+from warmingup.warmingup2 import faculty
 
 
 class conjoinTest(unittest.TestCase):

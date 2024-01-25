@@ -3,9 +3,8 @@
 # lesson 7: searching
 # 12.01.2021
 
-from warmingup.types import Iterator
-
 from searching.conjoin import free_fields
+from warmingup.types import Iterator
 
 
 # Java-like interface

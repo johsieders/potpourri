@@ -8,8 +8,8 @@ from collections import deque
 from itertools import chain, cycle, islice
 from operator import add
 
-from nums import Number
-from warmingup.types import Iterable, Iterator, Callable, Sequence
+# from nums import Number
+from typing import Iterable, Iterator, Callable, Sequence
 
 
 def yielding1(n: int):
@@ -65,7 +65,7 @@ def const(c: any) -> Iterator[any]:
 def naturals(start: int = 0) -> Iterator[int]:
     """
     :param start: an integer
-    :return: the naturals
+    :return: the naturals >= start
     """
     while True:
         yield start
@@ -75,7 +75,7 @@ def naturals(start: int = 0) -> Iterator[int]:
 def naturals1(start: int = 0) -> Iterator[int]:
     """
     :param start: an integer
-    :return: the naturals
+    :return: the naturals > start
     """
     yield start
     yield from naturals(start + 1)
@@ -107,7 +107,7 @@ def fun(f: Callable, *args: any) -> Iterator[any]:
     """
     :param f: a function taking k arguments, e.g. k = 2
     :param args: k arguments accepted by f
-    :return: n iterator yielding arg0, arg1, f(arg0, arg1), f(arg1, f(arg0, arg1)), ..
+    :return: an iterator yielding arg0, arg1, f(arg0, arg1), f(arg1, f(arg0, arg1)), ..
     """
     for arg in args:
         yield arg
@@ -117,25 +117,25 @@ def fun(f: Callable, *args: any) -> Iterator[any]:
         yield args[-1]
 
 
-def ari(increment: Number, start: Number = 0) -> Iterator[Number]:
+def ari(increment: int, start: int = 0) -> Iterator[int]:
     """
-    :param increment: any number
-    :param start: any number, starting value
-    :return: the arithmetic series staring at start
+    :param increment: a number
+    :param start: another number, starting value
+    :return: the arithmetic series starting at start
     """
     return fun(lambda x: x + increment, start)
 
 
-def geo(factor: Number, start: Number = 1) -> Iterator[Number]:
+def geo(factor: int, start: int = 1) -> Iterator[int]:
     """
-    :param factor: any number
-    :param start: any number, starting value
+    :param factor: a number
+    :param start: another number, starting value
     :return: the geometric series staring at start
     """
     return fun(lambda x: x * factor, start)
 
 
-def alternate() -> Iterator[Number]:
+def alternate() -> Iterator[int]:
     a = ari(1)
     g = geo(2)
     while True:
@@ -267,8 +267,8 @@ def tee1(t: Iterable, n: int = 2) -> Sequence[Iterator]:
 
 def hamming(*ps: int) -> Iterator[int]:
     """
-    :param ps: ps = (p0, p1, p2, ..) contains one or more integers, generally primes
-    :return: an iterator yielding all multiples of p0, p1, p2, ..
+    :param ps: ps = (p0, p1, p2, ...) contains one or more integers, generally primes
+    :return: an iterator yielding all multiples of p0, p1, p2, ...
 
     This solution follows Dijkstra: "An exercise attributed to R.W. Hamming":
 

@@ -1,11 +1,12 @@
 # testing nums
 # 20/11/2020
 # j.siedersleben
+# checked 08.01.2024
 
 
 import unittest
 
-from nums.src.romans import *
+from misc.romans import *
 
 
 class TestRomans(unittest.TestCase):

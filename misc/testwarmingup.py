@@ -1,12 +1,14 @@
 # testing warmingup
 # 13/11/2020
+# checked 06/01/2024
 
+import math
 import unittest
 
-from nums.src.warmingup import *
+from misc.warmingup import *
 
 
-class WarmingupTest(unittest.TestCase):
+class TestWarmingup(unittest.TestCase):
     def testPower2(self):
         for n in [2 ** k for k in range(2, 100)]:
             self.assertFalse(powerOf2(n - 1))
@@ -14,8 +16,8 @@ class WarmingupTest(unittest.TestCase):
             self.assertFalse(powerOf2(n + 1))
 
     def testLog2(self):
-        for n in range(1, 10):
-            print(n, log2(n))
+        for n in range(1, 1000):
+            self.assertEqual(math.floor(math.log(n, 2)), log2(n))
 
     def testFibo(self):
         f = fibo(3)
@@ -122,7 +124,3 @@ class WarmingupTest(unittest.TestCase):
                                      kurzproben[i],
                                      stegreifaufgaben[i])
             self.assertAlmostEqual(gesamtnote, ergebnis[i])
-
-    def testPascal(self):
-        for n in range(7):
-            print(pascal(n))
