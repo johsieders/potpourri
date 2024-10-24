@@ -6,6 +6,14 @@ from rings import Ring
 
 
 class EuclidianRing(Ring, Comparable):
+    def get_sample_prime(self):
+        """
+        :return: any prime element
+        (a prime number or an irreducible polynomial)
+        This is useful for generating test cases.
+        """
+        raise NotImplementedError()
+
     def my_divmod(self, b):
         """
         :param q: divisor

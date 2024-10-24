@@ -3,7 +3,8 @@
 
 from calendar import monthrange
 from datetime import date
-from types import SliceType
+
+from types_ import SliceType
 
 
 class DWHDimension(object):

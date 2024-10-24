@@ -2,10 +2,12 @@
 # fasttrack to professional programming
 # lesson 2: collections
 # 17.11.2020
-
-# Anmerkung: collections gibt es schon irgendwo, daher collections_
+import time
 
 from warmingup.warmingup2 import romans
+
+
+# Anmerkung: collections gibt es schon irgendwo, daher collections_
 
 
 def merge(xs, ys: list):
@@ -298,3 +300,52 @@ def hanoi(n):
 
     move(n, a, b, c)
     return protocol
+
+
+def hanoi_immutable(n):
+    """
+    Towers of Hanoi. Exponential time (n = 22 -> 12s)
+    :param n: number of disks on first tower > 0
+    :return: protocol of all moves
+    This is hanoi with immutable lists
+    """
+
+    if n < 1:
+        raise ValueError
+
+    rods = [range(n, 0, -1), (), ()]
+    protocol = [rods]
+
+    def move(n, rods, i, j, k):
+        if n == 1:
+            n_rods = 3 * [None]
+            n_rods[i] = tuple(rods[i][:-1])  # move top of rod[i]
+            n_rods[j] = tuple(rods[j])
+            n_rods[k] = tuple(rods[k]) + tuple([rods[i][-1]])  # to top of rod[k]
+            protocol.append(n_rods)
+            return n_rods
+        else:
+            n_rods = move(n - 1, rods, i, k, j)
+            n_rods = move(1, n_rods, i, j, k)
+            n_rods = move(n - 1, n_rods, j, i, k)
+        return n_rods
+
+    move(n, rods, 0, 1, 2)
+    return protocol
+
+
+if __name__ == '__main__':
+    N = 20
+
+    t0 = time.time()
+    p = hanoi(N)
+    t1 = time.time()
+    print("mutable: ", t1 - t0)
+    print(len(p))
+
+    t0 = time.time()
+    p = hanoi_immutable(N)
+    t1 = time.time()
+    print("immutable: ", t1 - t0)
+    print(len(p))
+    print()

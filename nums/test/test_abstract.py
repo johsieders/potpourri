@@ -13,7 +13,42 @@ from rings import Ring
 
 
 class TestAbstract(unittest.TestCase):
-    def challenge_ring(self, *x: Ring):
+    def challenge_ring(self, *x):
+        for a in x:
+            self.assertEqual(a, a)
+            self.assertNotEqual(a, a + 1)
+
+            self.assertEqual(0, 0 + a - a)
+            self.assertEqual(0, 0 + a + -a)
+            self.assertEqual(0, 0 - +a + a)
+            self.assertEqual(1, a - a + 1)
+
+            self.assertEqual(1, +a - a + 1)
+            self.assertEqual(1, +a - a + 1)
+
+            self.assertEqual(a + a, 2 * a)
+            self.assertEqual(a - 2, a - 1 - 1)
+            self.assertNotEqual(a, a - 1)
+            self.assertEqual(1, a ** 0)
+
+            self.assertEqual(a, a ** 1)
+            self.assertEqual(a * a, a ** 2)
+            self.assertEqual(a * a * a, a ** 3)
+
+        y = list(x)
+        y.reverse()
+
+        self.assertEqual(sum(x), sum(y))
+        self.assertEqual(sum(x) * sum(y), sum(y) * sum(x))
+        px = reduce(lambda a, b: a * b, x)
+        py = reduce(lambda a, b: a * b, y)
+        self.assertEqual(px, py)
+        self.assertEqual(x[0] * sum(x[1:]), sum([x[0] * a for a in x[1:]]))
+
+        y = [-a for a in x]
+        self.assertEqual(sum(x), -sum(y))
+
+    def challenge_ring_(self, *x: Ring):
         if len(x) < 1:
             raise ValueError("at least 1 argument is required")
 
@@ -52,8 +87,9 @@ class TestAbstract(unittest.TestCase):
     def challenge_field(self, *x: Field):
         self.challenge_ring(*x)
 
-        self.assertEqual(x[0], x[0] / 1)
-        self.assertEqual(x[0] * x[1], x[0] * x[1] / 1)
+        for a in x:
+            self.assertEqual(a, a / 1)
+            self.assertEqual(a * x[1], a * x[1] / 1)
 
         y = [a for a in x if a]
         py = reduce(lambda a, b: a * b, y)
@@ -62,7 +98,7 @@ class TestAbstract(unittest.TestCase):
             self.assertEqual(py, (py / a) * a)
             self.assertEqual(1, (1 / a) * a)
             self.assertEqual(1, a * a ** -1)
-            # self.assertEqual(1, a ** 2 * a ** -2)
+            self.assertEqual(1, a ** 2 * a ** -2)
 
     def challenge_div(self, p: EuclidianRing, q: EuclidianRing):
         if gcd(p, q) != 1 or not q:  # nothing to test, q could be a zero divider

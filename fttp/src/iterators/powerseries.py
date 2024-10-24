@@ -6,7 +6,7 @@
 from itertools import tee, zip_longest
 from operator import add, sub
 
-from warmingup.types import Iterator
+from warmingup.types_ import Iterator
 
 
 def weak(op):

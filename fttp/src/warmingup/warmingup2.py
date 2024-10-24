@@ -3,7 +3,7 @@
 # lesson 1: warm up
 # 15.11.2020
 
-from warmingup.types import List
+from warmingup.types_ import List
 
 
 def powerOf2(n: int) -> bool:

@@ -5,7 +5,7 @@
 
 from collections import deque
 
-from warmingup.types import Iterator
+from warmingup.types_ import Iterator
 from warmingup.warmingup2 import log2
 
 

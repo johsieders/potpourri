@@ -34,18 +34,19 @@ class TestNums(TestAbstract):
                     self.assertEqual(p(x) * q(x), (p * q)(x))
 
     def testPolynomialOfX(self):
-        p = Polynomial(1, 0, 1)
-        q = Polynomial(1, 1)
-        r = Rational(1, 2)
-        # print(p(r))
-        # print(p(q))
 
-        a = Rational(p, q)
-        b = a ** 2
-
-        c = Polynomial(a, b)
-        print(c)
-
+        #     p = Polynomial(1, 0, 1)
+        #     q = Polynomial(1, 1)
+        #     r = Rational(1, 2)
+        #     # print(p(r))
+        #     # print(p(q))
+        #
+        #     a = Rational(p, q)
+        #     b = a ** 2
+        #
+        #     c = Polynomial(a, b)
+        #     print(c)
+        #
         self.challenge_polynomial(5, float)
         self.challenge_polynomial(5, Rational)
 

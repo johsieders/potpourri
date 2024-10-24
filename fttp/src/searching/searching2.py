@@ -4,7 +4,7 @@
 # 12.01.2021
 
 from searching.conjoin import free_fields
-from warmingup.types import Iterator
+from warmingup.types_ import Iterator
 
 
 # Java-like interface

@@ -86,7 +86,6 @@ class Polynomial(EuclidianRing, list):
         Polynomials p, q are considered equal iff they differ by a constant factor,
         that is p = x * q or q = x * p
         """
-
         if self < p or p < self:
             return False
         elif not (self or p):

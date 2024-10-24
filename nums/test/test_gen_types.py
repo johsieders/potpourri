@@ -39,6 +39,20 @@ class TestGenTypes(TestCase):
             print(cnt, m(1))
             cnt += 1
 
+    def test_gen_t(self):
+        n = 3
+        cnt = 0
+        print('Fields')
+        for m in gen_fields_t(n):
+            print(cnt, [str(x) for x in m])
+            cnt += 1
+
+        print()
+        print('Euclidian Rings')
+        for m in gen_euclidian_rings_t(n):
+            print(cnt, [str(x) for x in m])
+            cnt += 1
+
     def testX(self):
         a = Mp(3, [7])
         b = Polynomial(a)
@@ -49,3 +63,16 @@ class TestGenTypes(TestCase):
         b = Polynomial(a)
         c = Fp(b, Polynomial(1, 0, 1))
         print(c)
+
+        a = Rational(3, 7)
+        b = Polynomial(a)
+        c = Rational(b, b)
+        print(c)
+
+        a = Rational(3, 7)
+        b = Polynomial(a, 0, 1)
+        c = Polynomial(a, 1)
+        d = Rational(b, c)
+        d(0)
+        for x in range(3):
+            print(d(x))

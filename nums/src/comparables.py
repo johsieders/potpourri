@@ -12,6 +12,9 @@ class Comparable(object):
     def lt(self, x):
         raise NotImplementedError
 
+    def __eq__(self, x):
+        raise NotImplementedError
+
     def __lt__(self, b):
         b = self.transform(b)
         return self.lt(b)

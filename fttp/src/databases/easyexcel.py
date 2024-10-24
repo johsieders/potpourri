@@ -4,9 +4,9 @@
 # easy Excel from Python/Programming on Win32, p. 149
 # js 26.11.01
 
-from types import UnicodeType
-
 from win32com.client import Dispatch
+
+from types_ import UnicodeType
 
 
 def fixStringAndDate(value):

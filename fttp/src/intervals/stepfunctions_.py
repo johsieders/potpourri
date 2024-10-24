@@ -26,7 +26,7 @@ def fmerge(op: Callable, *fs: Iterable) -> Iterator:
             if head[f] is None:
                 head[f] = next(f, None)
 
-        hs = [h[0] for h in iter(head.values()) if h]
+        hs = [h[0] for h in iter(head.factors()) if h]
         if hs:  # determine m = next step
             try:
                 im = hs.index(None)

@@ -54,7 +54,7 @@ class Mp(Field):
         return v if isinstance(v, Mp) else Mp([v], self.coprimes)
 
     def eq(self, b):
-        for a, b in zip(self.values, b.values):
+        for a, b in zip(self.values, b.factors):
             if a != b:
                 return False
         return True
@@ -63,19 +63,19 @@ class Mp(Field):
         return not self.is_zero_divisor
 
     def add(self, b):
-        v = [(self.values[i] + b.values[i]) for i in range(len(self.values))]
+        v = [(self.values[i] + b.factors[i]) for i in range(len(self.values))]
         return Mp(v, self.coprimes)
 
     def sub(self, b):
-        v = [(self.values[i] - b.values[i]) for i in range(len(self.values))]
+        v = [(self.values[i] - b.factors[i]) for i in range(len(self.values))]
         return Mp(v, self.coprimes)
 
     def mul(self, b):
-        v = [self.values[i] * b.values[i] for i in range(len(self.values))]
+        v = [self.values[i] * b.factors[i] for i in range(len(self.values))]
         return Mp(v, self.coprimes)
 
     def div(self, b):
-        v = [self.values[i] * inv(b.values[i], b.coprimes[i]) for i in range(len(b.values))]
+        v = [self.values[i] * inv(b.factors[i], b.coprimes[i]) for i in range(len(b.factors))]
         return Mp(v, self.coprimes)
 
     def __abs__(self):

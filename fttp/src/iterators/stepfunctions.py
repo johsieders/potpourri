@@ -30,7 +30,7 @@ def fmerge(op: Callable, *fs: Iterable) -> Iterator:
                 except StopIteration:
                     pass
 
-        hs = [h[0] for h in iter(head.values()) if h]
+        hs = [h[0] for h in iter(head.factors()) if h]
         if hs:  # determine m = next step
             m = min(hs)
         else:  # stop if all f are done
@@ -41,7 +41,7 @@ def fmerge(op: Callable, *fs: Iterable) -> Iterator:
                 val[f] = head[f][1]
                 head[f] = None
 
-        v = weak(iter(val.values()))
+        v = weak(iter(val.factors()))
         if v != lastval:  # check if value has changed
             lastval = v
             yield m, v

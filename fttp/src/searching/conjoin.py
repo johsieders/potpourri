@@ -2,7 +2,7 @@
 ## js 10.8.02
 ## bubenorbis
 
-from warmingup.types import Callable, List, Sequence
+from warmingup.types_ import Callable, List, Sequence
 
 
 ############################################

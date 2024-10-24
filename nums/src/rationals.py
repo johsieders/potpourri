@@ -71,7 +71,7 @@ class Rational(Field, Comparable):
     def __float__(self):
         return self.numerator / self.denominator
 
-    def __int__(self):
+    def __int__(self) -> int:
         """
         Converts self into an integer rounded towards 0
         :return: self as int
@@ -80,11 +80,22 @@ class Rational(Field, Comparable):
         return self.numerator // self.denominator if self.numerator >= 0 \
             else -(-self.numerator // self.denominator)
 
-    def __abs__(self):
+    def __abs__(self) -> float:
         return abs(self.__float__())
 
-    def __call__(self, x):
-        return Rational(self.numerator(x), self.denominator(x))
+    def __call__(self, x) -> Field:
+        """
+        :param x: whatever numerator and denominator accept
+        :return: quotient of the results
+        This call succeeds if the numerator and denominator accept ()
+        and self.denominator(x) != 0.
+        What does NOT work:
+        (1) (self.numerator / self.denominator)(x),
+        because numerator and denominator do not support /
+        (2) Rational(self.numerator(x) / self.denominator(x))
+        because (numerator(x) / denominator(x)) does not support //
+        """
+        return self.numerator(x) / self.denominator(x)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.numerator) + '/' + str(self.denominator)

@@ -1,25 +1,16 @@
 # js 27.12.2003
 # checked 08/01/2024
 
-import unittest
-
+from ackerm import *
 from polynomials import Polynomial
 from primes import gcd, ext_gcd, inv
 
 
 class TestGCD(unittest.TestCase):
 
-    # def testPls(self):
-    #     print(pls(2, 3))
+    def testWhich(self):
+        print(which_Nat(5, 3, lambda n: n))
 
-    # def testAckermann(self):
-    #     M = 4
-    #     N = 1
-    #     for m in range(M):
-    #         row = []
-    #         for n in range(N):
-    #             row.append(ackermann(m, n))
-    #         print(row)
     def testGcd(self):
         p = Polynomial(7)
         q = Polynomial(3)
