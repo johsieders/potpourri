@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
-    <option name="sdkName" value="Python 3.11 (llama)" />
+    <option name="sdkName" value="C:\Users\j.siedersleben\AppData\Local\anaconda3\envs\conda312" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (llama)" project-jdk-type="Python SDK" />
-  <component name="PyPackaging">
-    <option name="earlyReleasesAsUpgrades" value="true" />
-  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="C:\Users\j.siedersleben\AppData\Local\anaconda3\envs\conda312-torch251-cuda124" project-jdk-type="Python SDK" />
   <component name="PythonCompatibilityInspectionAdvertiser">
     <option name="version" value="3" />
   </component>

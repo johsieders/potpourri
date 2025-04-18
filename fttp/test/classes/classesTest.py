@@ -6,10 +6,12 @@
 
 import unittest
 
-from classes.romans import *
+from classes_.romans import *
+# from sorting.sorting2 import *
 
 
 class classesTest(unittest.TestCase):
+
     def testRomans(self):
         tofrom = (Roman.toRoman, Roman.fromRoman), \
             (RomanFunc.toRoman, RomanFunc.fromRoman), \
@@ -21,3 +23,22 @@ class classesTest(unittest.TestCase):
 
             self.assertEqual(1, fromRoman('I'))
             self.assertEqual(100, fromRoman('C'))
+
+
+
+class TestStringMethods(unittest.TestCase):
+
+    def test_upper(self):
+        self.assertEqual('foo'.upper(), 'FOO')
+
+    def test_isupper(self):
+        self.assertTrue('FOO'.isupper())
+        self.assertFalse('Foo'.isupper())
+
+    def test_split(self):
+        s = 'hello world'
+        self.assertEqual(s.split(), ['hello', 'world'])
+        # check that s.split fails when the separator is not a string
+        with self.assertRaises(TypeError):
+            s.split(2)
+

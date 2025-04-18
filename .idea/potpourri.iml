@@ -2,55 +2,20 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/symbolics/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/symbolics/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/fttp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fttp/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fractals" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/language" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/tensors/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/qubits/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/qubits/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/nums/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/nums/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/ai" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/bayes" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/classes_" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/collections_" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/databases" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/digraphs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/functions" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/interpreters" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/intervals" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/intlinoptimization" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/iterators" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/lambdas" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/searching" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/sorting" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/sudoku" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/sudoku_simon" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/symb" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/threads" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/src/warmingup" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/classes" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/collections_" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/databases" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/digraphs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/functions" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/interpreters" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/intervals" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/iterators" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/lambdas" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/qbits" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/searching" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/sorting" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/sudoku_simon" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/symb" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/threads" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/fttp/test/warmingup" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/wolfram" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/qubits/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/qubits/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tensors/src/torch_basics" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/nums/doc" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.11 (llama)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="C:\Users\j.siedersleben\AppData\Local\anaconda3\envs\conda312-torch251-cuda124" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
   </component>
 </module>
