@@ -171,3 +171,4 @@ def hsort2(xs):
     for x in xs:
         h.heappush(x)
     return [h.heappop() for _ in range(len(h))]
+

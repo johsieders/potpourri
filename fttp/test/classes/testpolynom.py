@@ -3,8 +3,8 @@
 
 import unittest
 
-from classes.polynomial import Polynomial
-from classes.rational import gcd
+from classes_.polynomial import Polynomial
+from classes_.rational import gcd
 
 
 class TestPolynom(unittest.TestCase):

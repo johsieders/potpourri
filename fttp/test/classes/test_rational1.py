@@ -1,6 +1,6 @@
 import unittest
 
-from classes_.rational1 import Rational
+from src.classes_.rational1 import Rational
 
 
 class test_classes1(unittest.TestCase):

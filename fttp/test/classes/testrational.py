@@ -3,10 +3,10 @@
 
 import unittest
 
-flag = 1
+flag = 0
 
 if flag:
-    from classes.rational import Rational
+    from classes_.rational import Rational
 else:
     from fractions import Fraction as Rational
 
