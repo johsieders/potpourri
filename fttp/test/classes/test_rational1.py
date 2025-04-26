@@ -1,7 +1,6 @@
 import unittest
 
-from src.classes_.rational1 import Rational
-
+from classes_.romans import *
 
 class test_classes1(unittest.TestCase):
     def test_rat_num_basics(self):

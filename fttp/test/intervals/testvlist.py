@@ -4,7 +4,7 @@
 
 import unittest
 
-from src.intervals.vlist import *
+from intervals.vlist import *
 
 N = 10
 

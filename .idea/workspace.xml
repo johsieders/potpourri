@@ -4,17 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd5678da-1ae4-40b8-97f3-5b8dd8998d90" name="Changes" comment="Merge remote-tracking branch 'origin/main'" />
+    <list default="true" id="adc3925e-72b4-4ca1-8c58-de35ab84361b" name="Changes" comment="setup modified">
+      <change afterPath="$PROJECT_DIR$/requirements__.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jupyter-settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/potpourri.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fttp/test/classes/classesTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/fttp/test/classes/classesTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fttp/test/classes/test_rational1.py" beforeDir="false" afterPath="$PROJECT_DIR$/fttp/test/classes/test_rational1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fttp/test/intervals/testvlist.py" beforeDir="false" afterPath="$PROJECT_DIR$/fttp/test/intervals/testvlist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -34,12 +51,10 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2q7sm3WbiMN7Vfgk3pPzRdtEfBS" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2vuLKAAg4o2Rk7eaX3NQcefCVki" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -47,40 +62,31 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for classes.classesTest.TestStringMethods.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for classes.classesTest.classesTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for classes.classesTest.classesTest.testRomans.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for classes.classesTestX.classesTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for classes.classesTestX.sortingTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for classes.testrational.TestRational.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for searching.searchingTest.searchingTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for sorting.sortingTest.sortingTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests for classesTest.TestStringMethods.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for collectionsTest.collectionsTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for functionsTest.functionsTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for sortingTest.sortingTest.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for tensors.TestTensors.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in classesTest.py.executor&quot;: &quot;Run&quot;,
     &quot;Python.01_modules.executor&quot;: &quot;Run&quot;,
     &quot;Python.forth.executor&quot;: &quot;Run&quot;,
+    &quot;Python.functions2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.towers_of_Hanoi.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/j.siedersleben/Google Drive/prog/potpourri/fttp/test/classes&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\j.siedersleben\Google Drive\prog\potpourri\fttp\test\classes" />
-      <recent name="C:\Users\j.siedersleben\Google Drive\prog\potpourri\tensors\src" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.forth">
-    <configuration name="forth" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="potpourri" />
+  <component name="RunManager" selected="Python.functions2">
+    <configuration name="01_modules" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="potpourri_" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -88,12 +94,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/src/interpreters" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tensors/src" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fttp/src/interpreters/forth.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tensors/src/01_modules.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -102,77 +108,91 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for classes.classesTestX.classesTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="potpourri" />
+    <configuration name="functions2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="potpourri_" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/src/functions" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fttp/src/functions/functions2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="towers_of_Hanoi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="potpourri_" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/src/collections_" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fttp/src/collections_/towers_of_Hanoi.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for functionsTest.functionsTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="potpourri_" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/test/functions" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;classes.classesTestX.classesTest&quot;" />
+      <option name="_new_target" value="&quot;functionsTest.functionsTest&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for classes.classesTestX.sortingTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="potpourri" />
+    <configuration name="Python tests for sortingTest.sortingTest" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="potpourri_" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/test/sorting" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;classes.classesTestX.sortingTest&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for classes.classesTest.TestStringMethods" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="potpourri" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;classes.classesTest.TestStringMethods&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for classes.testrational.TestRational" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="potpourri" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fttp/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;classes.testrational.TestRational&quot;" />
+      <option name="_new_target" value="&quot;sortingTest.sortingTest&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.forth" />
-        <item itemvalue="Python tests.Python tests for classes.testrational.TestRational" />
-        <item itemvalue="Python tests.Python tests for classes.classesTestX.sortingTest" />
-        <item itemvalue="Python tests.Python tests for classes.classesTestX.classesTest" />
-        <item itemvalue="Python tests.Python tests for classes.classesTest.TestStringMethods" />
+        <item itemvalue="Python.functions2" />
+        <item itemvalue="Python.towers_of_Hanoi" />
+        <item itemvalue="Python.01_modules" />
+        <item itemvalue="Python tests.Python tests for sortingTest.sortingTest" />
+        <item itemvalue="Python tests.Python tests for functionsTest.functionsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -184,82 +204,65 @@
       </set>
     </attachedChunks>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fd5678da-1ae4-40b8-97f3-5b8dd8998d90" name="Changes" comment="" />
-      <created>1734025103725</created>
+      <changelist id="adc3925e-72b4-4ca1-8c58-de35ab84361b" name="Changes" comment="" />
+      <created>1744989946581</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1734025103725</updated>
-      <workItem from="1734025105457" duration="3068000" />
-      <workItem from="1734028261628" duration="487000" />
-      <workItem from="1734107202105" duration="278000" />
-      <workItem from="1734111340597" duration="3918000" />
-      <workItem from="1738150617400" duration="2706000" />
-      <workItem from="1738156610681" duration="252000" />
-      <workItem from="1740492842467" duration="77000" />
-      <workItem from="1744566501158" duration="1153000" />
-      <workItem from="1744646372216" duration="711000" />
-      <workItem from="1744988073779" duration="994000" />
+      <updated>1744989946581</updated>
+      <workItem from="1744989948701" duration="2441000" />
+      <workItem from="1744998259620" duration="884000" />
+      <workItem from="1745156183855" duration="248000" />
+      <workItem from="1745156450136" duration="2749000" />
+      <workItem from="1745163209112" duration="3591000" />
+      <workItem from="1745678470792" duration="657000" />
     </task>
-    <task id="LOCAL-00001" summary="Commit long overdue">
+    <task id="LOCAL-00001" summary="eliminating .idea">
       <option name="closed" value="true" />
-      <created>1744988248456</created>
+      <created>1744991575950</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1744988248456</updated>
+      <updated>1744991575950</updated>
     </task>
-    <task id="LOCAL-00002" summary="Commit long overdue">
+    <task id="LOCAL-00002" summary="setup modified">
       <option name="closed" value="true" />
-      <created>1744988398804</created>
+      <created>1744997909207</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1744988398804</updated>
+      <updated>1744997909207</updated>
     </task>
-    <task id="LOCAL-00003" summary="Merge remote-tracking branch 'origin/main'">
-      <option name="closed" value="true" />
-      <created>1744988638128</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1744988638128</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Merge remote-tracking branch 'origin/main'">
-      <option name="closed" value="true" />
-      <created>1744988803091</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1744988803091</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Commit long overdue" />
+    <MESSAGE value="eliminating .idea" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'" />
+    <MESSAGE value="setup modified" />
+    <option name="LAST_COMMIT_MESSAGE" value="setup modified" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tensors/src/01_modules.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/potpourri$01_modules.coverage" NAME="01_modules Coverage Results" MODIFIED="1738151043749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tensors/src" />
-    <SUITE FILE_PATH="coverage/potpourri$.coverage" NAME=" Coverage Results" MODIFIED="1738156410298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/test" />
-    <SUITE FILE_PATH="coverage/potpourri$forth.coverage" NAME="forth Coverage Results" MODIFIED="1744567119088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/src/interpreters" />
+    <SUITE FILE_PATH="coverage/potpourri$functions2.coverage" NAME="functions2 Coverage Results" MODIFIED="1745163439831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/src/functions" />
+    <SUITE FILE_PATH="coverage/potpourri$towers_of_Hanoi.coverage" NAME="towers_of_Hanoi Coverage Results" MODIFIED="1745163378001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/src/collections_" />
+    <SUITE FILE_PATH="coverage/potpourri_$.coverage" NAME=" Coverage Results" MODIFIED="1744991352391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tensors/src/torch_basics" />
+    <SUITE FILE_PATH="coverage/potpourri$forth.coverage" NAME="forth Coverage Results" MODIFIED="1744998641135" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/src/interpreters" />
+    <SUITE FILE_PATH="coverage/potpourri$.coverage" NAME=" Coverage Results" MODIFIED="1745157073221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/test/sorting" />
+    <SUITE FILE_PATH="coverage/potpourri_$forth.coverage" NAME="forth Coverage Results" MODIFIED="1744991295609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/fttp/src/interpreters" />
+    <SUITE FILE_PATH="coverage/potpourri$01_modules.coverage" NAME="01_modules Coverage Results" MODIFIED="1745157139505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tensors/src" />
   </component>
 </project>
